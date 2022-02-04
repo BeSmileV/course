@@ -1,0 +1,4 @@
+#ifndef COURSE_ALGORITHMS_H
+#define COURSE_ALGORITHMS_H
+
+#endif
