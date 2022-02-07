@@ -6,13 +6,13 @@
 #include "libs/data_structures/vector/vector.h"
 #include "libs/data_structures/vectorVoid/vectorVoid.h"
 
-void test_isEmpty_emptyVector(){
+void test_isEmpty_emptyVector() {
     vector v = createVector(2);
 
     assert(isEmpty(&v) == true);
 }
 
-void test_isEmpty_notEmptyVector(){
+void test_isEmpty_notEmptyVector() {
     vector v = createVector(2);
     pushBack(&v, 10);
     pushBack(&v, 12);
@@ -20,13 +20,13 @@ void test_isEmpty_notEmptyVector(){
     assert(isEmpty(&v) == false);
 }
 
-void test_isFull_FullVector(){
+void test_isFull_FullVector() {
     vector v = createVector(2);
 
     assert(isFull(&v) == false);
 }
 
-void test_isFull_notFullVector(){
+void test_isFull_notFullVector() {
     vector v = createVector(2);
     pushBack(&v, 10);
     pushBack(&v, 12);
@@ -34,7 +34,7 @@ void test_isFull_notFullVector(){
     assert(isFull(&v) == true);
 }
 
-void test_getVectorValue(){
+void test_getVectorValue() {
     vector v = createVector(2);
     pushBack(&v, 10);
     pushBack(&v, 12);
@@ -64,7 +64,7 @@ void test_popBack_notEmptyVector() {
     assert (v.capacity == 1);
 }
 
-void test_atVector_notEmptyVector(){
+void test_atVector_notEmptyVector() {
     vector v = createVector(4);
     pushBack(&v, 10);
     pushBack(&v, 12);
@@ -73,7 +73,7 @@ void test_atVector_notEmptyVector(){
     assert(*atVector(&v, 0) == 10 && *atVector(&v, 1) == 12);
 }
 
-void test_atVector_requestToLastElement(){
+void test_atVector_requestToLastElement() {
     vector v = createVector(2);
     pushBack(&v, 11);
     pushBack(&v, 22);
@@ -81,14 +81,14 @@ void test_atVector_requestToLastElement(){
     assert(*atVector(&v, 1) == 22);
 }
 
-void test_back_oneElementInVector(){
+void test_back_oneElementInVector() {
     vector v = createVector(2);
     pushBack(&v, 11);
 
     assert(*back(&v) == 11);
 }
 
-void test_back_notEmptyVector(){
+void test_back_notEmptyVector() {
     vector v = createVector(2);
     pushBack(&v, 11);
     pushBack(&v, 22);
@@ -96,14 +96,14 @@ void test_back_notEmptyVector(){
     assert(*back(&v) == 22);
 }
 
-void test_front_oneElementInVector(){
+void test_front_oneElementInVector() {
     vector v = createVector(2);
     pushBack(&v, 11);
 
     assert(*front(&v) == 11);
 }
 
-void test_front_notEmptyVector(){
+void test_front_notEmptyVector() {
     vector v = createVector(2);
     pushBack(&v, 11);
     pushBack(&v, 22);
