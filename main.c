@@ -4,6 +4,7 @@
 #include <assert.h>
 
 #include "libs/data_structures/vector/vector.h"
+#include "libs/data_structures/vectorVoid/vectorVoid.h"
 
 void test_isEmpty_emptyVector(){
     vector v = createVector(2);
@@ -129,6 +130,10 @@ void test() {
 
 int main() {
     test();
+
+    int *a = (int *) malloc(sizeof(int) * 10);
+
+    vectorVoid v = {(int*) a, 0, 10, sizeof(int)};
 
     return 0;
 }
