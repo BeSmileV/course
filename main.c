@@ -5,6 +5,42 @@
 
 #include "libs/data_structures/vector/vector.h"
 
+void test_isEmpty_emptyVector(){
+    vector v = createVector(2);
+
+    assert(isEmpty(&v) == true);
+}
+
+void test_isEmpty_notEmptyVector(){
+    vector v = createVector(2);
+    pushBack(&v, 10);
+    pushBack(&v, 12);
+
+    assert(isEmpty(&v) == false);
+}
+
+void test_isFull_FullVector(){
+    vector v = createVector(2);
+
+    assert(isFull(&v) == false);
+}
+
+void test_isFull_notFullVector(){
+    vector v = createVector(2);
+    pushBack(&v, 10);
+    pushBack(&v, 12);
+
+    assert(isFull(&v) == true);
+}
+
+void test_getVectorValue(){
+    vector v = createVector(2);
+    pushBack(&v, 10);
+    pushBack(&v, 12);
+
+    assert(getVectorValue(&v, 0) == 10 && getVectorValue(&v, 1) == 12);
+}
+
 void test_pushBack_emptyVector() {
     vector v = createVector(10);
     pushBack(&v, 10);
@@ -75,6 +111,11 @@ void test_front_notEmptyVector(){
 }
 
 void test() {
+    test_isFull_FullVector();
+    test_isFull_notFullVector();
+    test_isEmpty_emptyVector();
+    test_isEmpty_notEmptyVector();
+    test_getVectorValue();
     test_pushBack_emptyVector();
     test_pushBack_fullVector();
     test_popBack_notEmptyVector();
