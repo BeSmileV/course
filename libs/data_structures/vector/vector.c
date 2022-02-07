@@ -63,3 +63,36 @@ void popBack(vector *v){
     }
     v->size--;
 }
+
+int* atVector(vector *v, size_t index){
+    int *element = (int*) malloc(sizeof(int));
+    *element = v->data[index];
+    if(index >= v->size || index < 0){
+        fprintf(stderr, "IndexError: a[index] is not exists");
+        exit(1);
+    }
+
+    return element;
+}
+
+int* back(vector *v){
+    int *element = (int*) malloc(sizeof(int));
+    if(v->size == 0){
+        fprintf(stderr, "empty vector");
+        exit(1);
+    }
+    *element = v->data[v->size - 1];
+
+    return element;
+}
+
+int* front(vector *v){
+    int *element = (int*) malloc(sizeof(int));
+    if(v->size == 0){
+        fprintf(stderr, "empty vector");
+        exit(1);
+    }
+    *element = v->data[0];
+
+    return element;
+}
