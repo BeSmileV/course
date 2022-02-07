@@ -131,9 +131,5 @@ void test() {
 int main() {
     test();
 
-    int *a = (int *) malloc(sizeof(int) * 10);
-
-    vectorVoid v = {(int*) a, 0, 10, sizeof(int)};
-
     return 0;
 }
