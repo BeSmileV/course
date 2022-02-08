@@ -32,6 +32,8 @@ void clearV(vectorVoid *v) {
 }
 
 void deleteVectorV(vectorVoid *v) {
+    v->size = 0;
+    v->capacity = 0;
     free(v->data);
 }
 
