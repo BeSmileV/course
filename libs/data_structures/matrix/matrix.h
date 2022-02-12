@@ -23,4 +23,16 @@ void freeMemMatrix(matrix m);
 /// освобождает память выделенную под массив матриц ms размера nMatrices
 void freeMemMatrices(matrix *ms, int nMatrices);
 
+/// вводит матрицу m
+void inputMatrix(matrix m);
+
+/// вводит массив матриц s размера nMatrices
+void inputMatrices(matrix *ms, int nMatrices);
+
+/// выводит матрицу m
+void outputMatrix(matrix m);
+
+/// выводит массив матриц s размера nMatrices
+void outputMatrices(matrix *ms, int nMatrices);
+
 #endif

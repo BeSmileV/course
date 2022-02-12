@@ -1,4 +1,5 @@
 #include "matrix.h"
+#include "../../algorithms/array/array.h"
 
 matrix getMemMatrix(int nRows, int nCols){
     int **values = (int **) malloc(sizeof(int *) * nRows);
@@ -18,4 +19,24 @@ void freeMemMatrix(matrix m){
 void freeMemMatrices(matrix *ms, int nMatrices){
     for(size_t i = 0; i < nMatrices; i++)
         freeMemMatrix(ms[i]);
+}
+
+void inputMatrix(matrix m){
+    for (size_t i = 0; i < m.nRows; i++)
+        inputArray_(m.values[i], m.nCols);
+}
+
+void inputMatrices(matrix *ms, int nMatrices){
+    for(size_t i = 0; i < nMatrices; i++)
+        inputMatrix(ms[i]);
+}
+
+void outputMatrix(matrix m){
+    for(size_t i = 0; i < m.nRows; i++)
+        outputArray_(m.values[i], m.nCols);
+}
+
+void outputMatrices(matrix *ms, int nMatrices){
+    for(size_t i = 0; i < nMatrices; i++)
+        outputMatrix(ms[i]);
 }

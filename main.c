@@ -5,6 +5,7 @@
 
 #include "libs/data_structures/vector/vector.h"
 #include "libs/data_structures/vectorVoid/vectorVoid.h"
+#include "libs/data_structures/matrix/matrix.h"
 
 void test_isEmpty_emptyVector() {
     vector v = createVector(2);
@@ -130,6 +131,11 @@ void test() {
 
 int main() {
     test();
+
+    matrix m = getMemMatrix(3, 3);
+
+    inputMatrix(m);
+    outputMatrix(m);
 
     return 0;
 }
