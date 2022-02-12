@@ -44,11 +44,6 @@ bool isFull(vector *v){
 }
 
 int getVectorValue(vector *v, size_t i){
-    if(i >= v->size || i < 0){
-        fprintf(stderr, "IndexError: a[i] is not exists");
-        exit(1);
-    }
-
     return v->data[i];
 }
 
@@ -76,24 +71,13 @@ int* atVector(vector *v, size_t index){
         fprintf(stderr, "IndexError: a[index] is not exists");
         exit(1);
     }
-
     return v->data + index;
 }
 
 int* back(vector *v){
-    if(v->size == 0){
-        fprintf(stderr, "empty vector");
-        exit(1);
-    }
-
     return v->data + v->size - 1;
 }
 
 int* front(vector *v){
-    if(v->size == 0){
-        fprintf(stderr, "empty vector");
-        exit(1);
-    }
-
     return v->data;
 }
