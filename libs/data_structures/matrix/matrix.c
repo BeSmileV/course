@@ -8,3 +8,14 @@ matrix getMemMatrix(int nRows, int nCols){
     return (matrix){values, nRows, nCols};
 }
 
+void freeMemMatrix(matrix m){
+    for(size_t i = 0; i < m.nCols; i++)
+        free(m.values[i]);
+    m.nRows = 0;
+    m.nCols = 0;
+}
+
+void freeMemMatrices(matrix *ms, int nMatrices){
+    for(size_t i = 0; i < nMatrices; i++)
+        freeMemMatrix(ms[i]);
+}

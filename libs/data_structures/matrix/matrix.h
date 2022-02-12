@@ -14,6 +14,13 @@ typedef struct position {
     int colIndex;
 } position;
 
+/// выделяет память под матрицу размера nRows на nCols
 matrix getMemMatrix(int nRows, int nCols);
+
+/// освобождает память выделенную под матрицу m
+void freeMemMatrix(matrix m);
+
+/// освобождает память выделенную под массив матриц ms размера nMatrices
+void freeMemMatrices(matrix *ms, int nMatrices);
 
 #endif
