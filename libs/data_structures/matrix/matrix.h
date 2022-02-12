@@ -35,4 +35,10 @@ void outputMatrix(matrix m);
 /// выводит массив матриц s размера nMatrices
 void outputMatrices(matrix *ms, int nMatrices);
 
+/// обменивает строки с порядковыми номерами i1 и i2 в матрице m
+void swapRows(matrix m, int i1, int i2);
+
+/// обменивает столбцы с порядковыми номерами j1 и j2 в матрице m
+void swapColumns(matrix m, int j1, int j2);
+
 #endif

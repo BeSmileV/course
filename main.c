@@ -112,7 +112,7 @@ void test_front_notEmptyVector() {
     assert(*front(&v) == 11);
 }
 
-void test() {
+void testVector() {
     test_isFull_FullVector();
     test_isFull_notFullVector();
     test_isEmpty_emptyVector();
@@ -129,12 +129,15 @@ void test() {
     test_front_oneElementInVector();
 }
 
+
+
 int main() {
-    test();
+    testVector();
 
     matrix m = getMemMatrix(3, 3);
 
     inputMatrix(m);
+    swapColumns(m, 2, 1);
     outputMatrix(m);
 
     return 0;
