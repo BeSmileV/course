@@ -16,8 +16,9 @@ matrix *getMemArrayOfMatrices(int nMatrices, int nRows, int nCols) {
 }
 
 void freeMemMatrix(matrix m) {
-    for (size_t i = 0; i < m.nCols; i++)
+    for (size_t i = 0; i < m.nRows; i++)
         free(m.values[i]);
+    free(m.values);
     m.nRows = 0;
     m.nCols = 0;
 }

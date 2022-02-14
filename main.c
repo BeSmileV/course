@@ -11,6 +11,7 @@ void test_isEmpty_emptyVector() {
     vector v = createVector(2);
 
     assert(isEmpty(&v) == true);
+    deleteVector(&v);
 }
 
 void test_isEmpty_notEmptyVector() {
@@ -19,12 +20,14 @@ void test_isEmpty_notEmptyVector() {
     pushBack(&v, 12);
 
     assert(isEmpty(&v) == false);
+    deleteVector(&v);
 }
 
 void test_isFull_FullVector() {
     vector v = createVector(2);
 
     assert(isFull(&v) == false);
+    deleteVector(&v);
 }
 
 void test_isFull_notFullVector() {
@@ -33,6 +36,7 @@ void test_isFull_notFullVector() {
     pushBack(&v, 12);
 
     assert(isFull(&v) == true);
+    deleteVector(&v);
 }
 
 void test_getVectorValue() {
@@ -41,12 +45,14 @@ void test_getVectorValue() {
     pushBack(&v, 12);
 
     assert(getVectorValue(&v, 0) == 10 && getVectorValue(&v, 1) == 12);
+    deleteVector(&v);
 }
 
 void test_pushBack_emptyVector() {
     vector v = createVector(10);
     pushBack(&v, 10);
     assert(v.data[0] == 10);
+    deleteVector(&v);
 }
 
 void test_pushBack_fullVector() {
@@ -54,6 +60,7 @@ void test_pushBack_fullVector() {
     vector v = {a, 5, 5};
     pushBack(&v, 6);
     assert(v.capacity == 10 && v.size == 6 && v.data[5] == 6);
+    deleteVector(&v);
 }
 
 void test_popBack_notEmptyVector() {
@@ -63,6 +70,7 @@ void test_popBack_notEmptyVector() {
     popBack(&v);
     assert (v.size == 0);
     assert (v.capacity == 1);
+    deleteVector(&v);
 }
 
 void test_atVector_notEmptyVector() {
@@ -72,6 +80,7 @@ void test_atVector_notEmptyVector() {
     pushBack(&v, 121);
 
     assert(*atVector(&v, 0) == 10 && *atVector(&v, 1) == 12);
+    deleteVector(&v);
 }
 
 void test_atVector_requestToLastElement() {
@@ -80,6 +89,7 @@ void test_atVector_requestToLastElement() {
     pushBack(&v, 22);
 
     assert(*atVector(&v, 1) == 22);
+    deleteVector(&v);
 }
 
 void test_back_oneElementInVector() {
@@ -87,6 +97,7 @@ void test_back_oneElementInVector() {
     pushBack(&v, 11);
 
     assert(*back(&v) == 11);
+    deleteVector(&v);
 }
 
 void test_back_notEmptyVector() {
@@ -95,6 +106,7 @@ void test_back_notEmptyVector() {
     pushBack(&v, 22);
 
     assert(*back(&v) == 22);
+    deleteVector(&v);
 }
 
 void test_front_oneElementInVector() {
@@ -102,6 +114,7 @@ void test_front_oneElementInVector() {
     pushBack(&v, 11);
 
     assert(*front(&v) == 11);
+    deleteVector(&v);
 }
 
 void test_front_notEmptyVector() {
@@ -110,6 +123,7 @@ void test_front_notEmptyVector() {
     pushBack(&v, 22);
 
     assert(*front(&v) == 11);
+    deleteVector(&v);
 }
 
 void testVector() {
@@ -134,6 +148,7 @@ void test_swapRows() {
     matrix m = createMatrixFromArray(a, 2, 2);
     swapRows(m, 0, 1);
     assert(m.values[0][0] == 3 && m.values[0][1] == 4 && m.values[1][0] == 1 && m.values[1][1] == 2);
+    freeMemMatrix(m);
 }
 
 void test_swapColumns() {
@@ -141,18 +156,21 @@ void test_swapColumns() {
     matrix m = createMatrixFromArray(a, 2, 2);
     swapColumns(m, 0, 1);
     assert(m.values[0][0] == 2 && m.values[0][1] == 1 && m.values[1][0] == 4 && m.values[1][1] == 3);
+    freeMemMatrix(m);
 }
 
 void test_isSquareMatrix_SquareMatrix() {
     int a[] = {1, 2, 3, 4};
     matrix m = createMatrixFromArray(a, 2, 2);
     assert(isSquareMatrix(m));
+    freeMemMatrix(m);
 }
 
 void test_isSquareMatrix_NotSquareMatrix() {
     int a[] = {1, 2, 3, 4, 5, 6};
     matrix m = createMatrixFromArray(a, 2, 3);
     assert(!isSquareMatrix(m));
+    freeMemMatrix(m);
 }
 
 void test_twoMatricesEqual_EqualMatrices() {
@@ -161,6 +179,8 @@ void test_twoMatricesEqual_EqualMatrices() {
     matrix m1 = createMatrixFromArray(a, 2, 2);
     matrix m2 = createMatrixFromArray(b, 2, 2);
     assert(twoMatricesEqual(m1, m2));
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
 }
 
 void test_twoMatricesEqual_NotEqualMatrices() {
@@ -169,42 +189,50 @@ void test_twoMatricesEqual_NotEqualMatrices() {
     matrix m1 = createMatrixFromArray(a, 2, 2);
     matrix m2 = createMatrixFromArray(b, 2, 2);
     assert(!twoMatricesEqual(m1, m2));
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
 }
 
 void test_isEMatrix_EMatrix() {
     int a[] = {1, 0, 0, 1};
     matrix m = createMatrixFromArray(a, 2, 2);
     assert(isEMatrix(m));
+    freeMemMatrix(m);
 }
 
 void test_isEMatrix_NotEMatrix() {
     int a[] = {1, 1, 1, 0};
     matrix m = createMatrixFromArray(a, 2, 2);
     assert(!isEMatrix(m));
+    freeMemMatrix(m);
 }
 
 void test_isEMatrix_NotSquareMatrix() {
     int a[] = {1, 0, 0, 0, 1, 0};
     matrix m = createMatrixFromArray(a, 2, 3);
     assert(!isEMatrix(m));
+    freeMemMatrix(m);
 }
 
 void test_isSymmetricMatrix_Symmetric(){
     int a[] = {2, 1, 1, 2};
     matrix m = createMatrixFromArray(a, 2, 2);
     assert(isSymmetricMatrix(m));
+    freeMemMatrix(m);
 }
 
 void test_isSymmetricMatrix_NotSymmetric(){
     int a[] = {1, 2, 3, 4};
     matrix m = createMatrixFromArray(a, 2, 2);
     assert(!isSymmetricMatrix(m));
+    freeMemMatrix(m);
 }
 
 void test_isSymmetricMatrix_NotSquareMatrix() {
     int a[] = {1, 1, 1, 1, 1, 1};
     matrix m = createMatrixFromArray(a, 2, 3);
     assert(!isSymmetricMatrix(m));
+    freeMemMatrix(m);
 }
 
 void test_transposeSquareMatrix(){
@@ -214,6 +242,8 @@ void test_transposeSquareMatrix(){
     int b[] = {1, 3, 2, 4};
     matrix m2 = createMatrixFromArray(b, 2, 2);
     assert(twoMatricesEqual(m1, m2));
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
 }
 
 void test_getMinValuePos(){
@@ -221,6 +251,7 @@ void test_getMinValuePos(){
     matrix m = createMatrixFromArray(a, 2, 2);
     position p = getMinValuePos(m);
     assert(m.values[p.rowIndex][p.colIndex] == 1);
+    freeMemMatrix(m);
 }
 
 void test_getMaxValuePos(){
@@ -228,6 +259,7 @@ void test_getMaxValuePos(){
     matrix m = createMatrixFromArray(a, 2, 2);
     position p = getMaxValuePos(m);
     assert(m.values[p.rowIndex][p.colIndex]  == 23);
+    freeMemMatrix(m);
 }
 
 void testMatrix() {
