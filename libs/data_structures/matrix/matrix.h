@@ -2,6 +2,7 @@
 #define COURSE__MATRIX_H
 
 #include <malloc.h>
+#include <stdbool.h>
 
 typedef struct matrix {
     int **values;   // элементы матрицы
@@ -16,6 +17,10 @@ typedef struct position {
 
 /// выделяет память под матрицу размера nRows на nCols
 matrix getMemMatrix(int nRows, int nCols);
+
+/// размещает в динамической памяти массив из nMatrices матриц
+/// размером nRows на nCols
+matrix *getMemArrayOfMatrices(int nMatrices, int nRows, int nCols);
 
 /// освобождает память выделенную под матрицу m
 void freeMemMatrix(matrix m);
@@ -48,5 +53,30 @@ void insertionSortRowsMatrixByRowCriteria(matrix m, int (*criteria)(int *, int))
 /// выполняет сортировку вставками столбцов матрицы m по неубыванию
 /// значения функции criteria применяемой для столбцов
 void insertionSortColsMatrixByColCriteria(matrix m, int (*criteria)(int *, int));
+
+/// возвращает true, если матрица m является квадратной, иначе - false
+bool isSquareMatrix(matrix m);
+
+/// возвращает true, если матрицы m1 и m2 равны, иначе - false
+bool twoMatricesEqual(matrix m1, matrix m2);
+
+/// возвращает true, если матрица m является единичной, иначе - false
+bool isEMatrix(matrix m);
+
+/// возвращает зекгу, если матрица m является симметричной, иначе - false
+bool isSymmetricMatrix(matrix m);
+
+/// транспонирует квадратную матрицу m
+void transposeSquareMatrix(matrix m);
+
+/// возвращает позицию минимального элемента матрицы m
+position getMinValuePos(matrix m);
+
+/// возвращает позицию максимального элемента матрицы m
+position getMaxValuePos(matrix m);
+
+matrix createMatrixFromArray(const int *a, int nRows, int nCols);
+
+matrix *createArrayOfMatrixFromArray(const int *values, int nMatrices, int nRows, int nCols);
 
 #endif

@@ -129,16 +129,128 @@ void testVector() {
     test_front_oneElementInVector();
 }
 
+void test_swapRows() {
+    int a[] = {1, 2, 3, 4};
+    matrix m = createMatrixFromArray(a, 2, 2);
+    swapRows(m, 0, 1);
+    assert(m.values[0][0] == 3 && m.values[0][1] == 4 && m.values[1][0] == 1 && m.values[1][1] == 2);
+}
 
+void test_swapColumns() {
+    int a[] = {1, 2, 3, 4};
+    matrix m = createMatrixFromArray(a, 2, 2);
+    swapColumns(m, 0, 1);
+    assert(m.values[0][0] == 2 && m.values[0][1] == 1 && m.values[1][0] == 4 && m.values[1][1] == 3);
+}
+
+void test_isSquareMatrix_SquareMatrix() {
+    int a[] = {1, 2, 3, 4};
+    matrix m = createMatrixFromArray(a, 2, 2);
+    assert(isSquareMatrix(m));
+}
+
+void test_isSquareMatrix_NotSquareMatrix() {
+    int a[] = {1, 2, 3, 4, 5, 6};
+    matrix m = createMatrixFromArray(a, 2, 3);
+    assert(!isSquareMatrix(m));
+}
+
+void test_twoMatricesEqual_EqualMatrices() {
+    int a[] = {1, 2, 3, 4};
+    int b[] = {1, 2, 3, 4};
+    matrix m1 = createMatrixFromArray(a, 2, 2);
+    matrix m2 = createMatrixFromArray(b, 2, 2);
+    assert(twoMatricesEqual(m1, m2));
+}
+
+void test_twoMatricesEqual_NotEqualMatrices() {
+    int a[] = {1, 2, 3, 4};
+    int b[] = {3, 3, 3, 3};
+    matrix m1 = createMatrixFromArray(a, 2, 2);
+    matrix m2 = createMatrixFromArray(b, 2, 2);
+    assert(!twoMatricesEqual(m1, m2));
+}
+
+void test_isEMatrix_EMatrix() {
+    int a[] = {1, 0, 0, 1};
+    matrix m = createMatrixFromArray(a, 2, 2);
+    assert(isEMatrix(m));
+}
+
+void test_isEMatrix_NotEMatrix() {
+    int a[] = {1, 1, 1, 0};
+    matrix m = createMatrixFromArray(a, 2, 2);
+    assert(!isEMatrix(m));
+}
+
+void test_isEMatrix_NotSquareMatrix() {
+    int a[] = {1, 0, 0, 0, 1, 0};
+    matrix m = createMatrixFromArray(a, 2, 3);
+    assert(!isEMatrix(m));
+}
+
+void test_isSymmetricMatrix_Symmetric(){
+    int a[] = {2, 1, 1, 2};
+    matrix m = createMatrixFromArray(a, 2, 2);
+    assert(isSymmetricMatrix(m));
+}
+
+void test_isSymmetricMatrix_NotSymmetric(){
+    int a[] = {1, 2, 3, 4};
+    matrix m = createMatrixFromArray(a, 2, 2);
+    assert(!isSymmetricMatrix(m));
+}
+
+void test_isSymmetricMatrix_NotSquareMatrix() {
+    int a[] = {1, 1, 1, 1, 1, 1};
+    matrix m = createMatrixFromArray(a, 2, 3);
+    assert(!isSymmetricMatrix(m));
+}
+
+void test_transposeSquareMatrix(){
+    int a[] = {1, 2, 3, 4};
+    matrix m1 = createMatrixFromArray(a, 2, 2);
+    transposeSquareMatrix(m1);
+    int b[] = {1, 3, 2, 4};
+    matrix m2 = createMatrixFromArray(b, 2, 2);
+    assert(twoMatricesEqual(m1, m2));
+}
+
+void test_getMinValuePos(){
+    int a[] = {1, 4, 23, 4};
+    matrix m = createMatrixFromArray(a, 2, 2);
+    position p = getMinValuePos(m);
+    assert(m.values[p.rowIndex][p.colIndex] == 1);
+}
+
+void test_getMaxValuePos(){
+    int a[] = {1, 4, 23, 4};
+    matrix m = createMatrixFromArray(a, 2, 2);
+    position p = getMaxValuePos(m);
+    assert(m.values[p.rowIndex][p.colIndex]  == 23);
+}
+
+void testMatrix() {
+    test_swapRows();
+    test_swapColumns();
+    test_isSquareMatrix_SquareMatrix();
+    test_isSquareMatrix_NotSquareMatrix();
+    test_twoMatricesEqual_EqualMatrices();
+    test_twoMatricesEqual_NotEqualMatrices();
+    test_isEMatrix_EMatrix();
+    test_isEMatrix_NotEMatrix();
+    test_isEMatrix_NotSquareMatrix();
+    test_isSymmetricMatrix_Symmetric();
+    test_isSymmetricMatrix_NotSymmetric();
+    test_isSymmetricMatrix_NotSquareMatrix();
+    test_transposeSquareMatrix();
+    test_getMinValuePos();
+    test_getMaxValuePos();
+}
 
 int main() {
     testVector();
-
-    matrix m = getMemMatrix(3, 3);
-
-    inputMatrix(m);
-    swapColumns(m, 2, 1);
-    outputMatrix(m);
+    testMatrix();
 
     return 0;
 }
