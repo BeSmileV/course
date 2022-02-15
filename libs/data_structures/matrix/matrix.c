@@ -55,7 +55,7 @@ void swapRows(matrix m, int i1, int i2) {
 }
 
 void swapColumns(matrix m, int j1, int j2) {
-    for (size_t i = 0; i < m.nCols; i++) {
+    for (size_t i = 0; i < m.nRows; i++) {
         int t = m.values[i][j1];
         m.values[i][j1] = m.values[i][j2];
         m.values[i][j2] = t;
@@ -67,12 +67,14 @@ void insertionSortRowsMatrixByRowCriteria(matrix m, int (*criteria)(int *, int))
     for (size_t i = 0; i < m.nRows; i++)
         a[i] = criteria(m.values[i], m.nCols);
     for (int i = 1; i < m.nRows; i++) {
+        int t = a[i];
         int j = i;
-        while (j > 0 && a[j - 1] > a[i]) {
+        while (j > 0 && a[j - 1] > t) {
+            a[j] = a[j - 1];
             swapRows(m, j, j - 1);
             j--;
         }
-        swapRows(m, i, j);
+        a[j] = t;
     }
     free(a);
 }
@@ -87,12 +89,14 @@ void insertionSortColsMatrixByColCriteria(matrix m, int (*criteria)(int *, int))
     }
     free(buffer);
     for (int i = 1; i < m.nCols; i++) {
+        int t = a[i];
         int j = i;
-        while (j > 0 && a[j - 1] > a[i]) {
+        while (j > 0 && a[j - 1] > t) {
+            a[j] = a[j - 1];
             swapColumns(m, j, j - 1);
             j--;
         }
-        swapColumns(m, i, j);
+        a[j] = t;
     }
     free(a);
 }

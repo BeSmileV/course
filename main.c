@@ -262,6 +262,40 @@ void test_getMaxValuePos(){
     freeMemMatrix(m);
 }
 
+/// возвращает наибольший элемент массива a
+int getMax(int *a, int n){
+    int max = a[0];
+    for(size_t i = 1; i < n; i++)
+        if(max < a[i])
+            max = a[i];
+
+    return max;
+}
+
+void test_insertionSortRowsMatrixByRowCriteria(){
+    int a[] = {3, 4, 5, 6, 1, 2};
+    matrix m1 = createMatrixFromArray(a, 3, 2);
+    insertionSortRowsMatrixByRowCriteria(m1, getMax);
+    int b[] = {1, 2, 3, 4, 5, 6};
+    matrix m2 = createMatrixFromArray(b, 3, 2);
+    assert(twoMatricesEqual(m1, m2));
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
+}
+
+void test_insertionSortColsMatrixByRowCriteria(){
+    int a[] = {1, 3, 2,
+               4, 6, 5};
+    matrix m1 = createMatrixFromArray(a, 2, 3);
+    insertionSortColsMatrixByColCriteria(m1, getMax);
+    int b[] = {1, 2, 3,
+               4, 5, 6};
+    matrix m2 = createMatrixFromArray(b, 2, 3);
+    assert(twoMatricesEqual(m1, m2));
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
+}
+
 void testMatrix() {
     test_swapRows();
     test_swapColumns();
@@ -269,6 +303,8 @@ void testMatrix() {
     test_isSquareMatrix_NotSquareMatrix();
     test_twoMatricesEqual_EqualMatrices();
     test_twoMatricesEqual_NotEqualMatrices();
+    test_insertionSortRowsMatrixByRowCriteria();
+    test_insertionSortColsMatrixByRowCriteria();
     test_isEMatrix_EMatrix();
     test_isEMatrix_NotEMatrix();
     test_isEMatrix_NotSquareMatrix();
