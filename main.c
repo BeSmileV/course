@@ -341,17 +341,50 @@ void test_sortRowsByMinElement(){
     freeMemMatrix(res);
 }
 
+// NUM 3
+/// возвращает наименьший элемент массива a
+int getMin(int *a, int n) {
+    int min = a[0];
+    for (size_t i = 1; i < n; i++)
+        if (min > a[i])
+            min = a[i];
+
+    return min;
+}
+
+/// упорядочивает столбцы матрицы по неубыванию минимальных элементов столбцов
+void sortColsByMinElement(matrix m){
+    insertionSortColsMatrixByColCriteria(m, getMin);
+}
+
+void test_sortColsByMinElement(){
+    int a[] = {4, 33, 22,
+               22, 2, 211,
+               211, 55, 1};
+    matrix m = createMatrixFromArray(a, 3, 3);
+    sortRowsByMinElement(m);
+    int b[] = {22, 33, 4,
+                211, 2, 22,
+                1, 55, 211};
+    matrix res = createMatrixFromArray(a, 3, 3);
+    assert(twoMatricesEqual(m, res));
+
+    freeMemMatrix(m);
+    freeMemMatrix(res);
+}
+
 int main() {
     testVector();
     testMatrix();
     test_sortRowsByMinElement();
+    test_sortColsByMinElement();
 
     int nRows, nCols;
     scanf("%d %d", &nRows, &nCols);
 
     matrix m = getMemMatrix(nRows, nCols);
     inputMatrix(m);
-    sortRowsByMinElement(m);
+    sortColsByMinElement(m);
     outputMatrix(m);
 
     return 0;
