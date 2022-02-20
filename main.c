@@ -7,6 +7,8 @@
 #include "libs/data_structures/vectorVoid/vectorVoid.h"
 #include "libs/data_structures/matrix/matrix.h"
 
+#define ERROR_RATE 10e-7
+
 void test_isEmpty_emptyVector() {
     vector v = createVector(2);
 
@@ -316,9 +318,23 @@ void testMatrix() {
     test_getMaxValuePos();
 }
 
+// TASKS
+
+
 int main() {
     testVector();
     testMatrix();
+
+    // NUM 1
+    int nRows, nCols;
+    scanf("%d %d", &nRows, &nCols);
+
+    matrix m = getMemMatrix(nRows, nCols);
+    inputMatrix(m);
+    position max = getMaxValuePos(m);
+    position min = getMinValuePos(m);
+    swapRows(m, max.rowIndex, min.rowIndex);
+    outputMatrix(m);
 
     return 0;
 }
