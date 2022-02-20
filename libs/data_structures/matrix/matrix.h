@@ -76,7 +76,7 @@ position getMinValuePos(matrix m);
 position getMaxValuePos(matrix m);
 
 /// возвращает матрицу, равной произведению матриц m1 и m2
-matrix mulMatrices(matrix m1, matrix m2);
+//matrix mulMatrices(matrix m1, matrix m2);
 
 matrix createMatrixFromArray(const int *a, int nRows, int nCols);
 
