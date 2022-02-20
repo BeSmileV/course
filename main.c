@@ -319,21 +319,39 @@ void testMatrix() {
 }
 
 // TASKS
+// NUM 2
+/// упорядочивает строки матрицы по неубыванию наибольших элементов строк
+void sortRowsByMinElement(matrix m) {
+    insertionSortRowsMatrixByRowCriteria(m, getMax);
+}
 
+void test_sortRowsByMinElement(){
+    int a[] = {1, 3, 2,
+               12, 22, 21,
+               33, 25, 54};
+    matrix m = createMatrixFromArray(a, 3, 3);
+    sortRowsByMinElement(m);
+    int b[] = {33, 25, 54,
+               12, 22, 21,
+               1, 3, 2};
+    matrix res = createMatrixFromArray(a, 3, 3);
+    assert(twoMatricesEqual(m, res));
+
+    freeMemMatrix(m);
+    freeMemMatrix(res);
+}
 
 int main() {
     testVector();
     testMatrix();
+    test_sortRowsByMinElement();
 
-    // NUM 1
     int nRows, nCols;
     scanf("%d %d", &nRows, &nCols);
 
     matrix m = getMemMatrix(nRows, nCols);
     inputMatrix(m);
-    position max = getMaxValuePos(m);
-    position min = getMinValuePos(m);
-    swapRows(m, max.rowIndex, min.rowIndex);
+    sortRowsByMinElement(m);
     outputMatrix(m);
 
     return 0;
