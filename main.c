@@ -440,6 +440,77 @@ void test_mulMatrices() {
     freeMemMatrix(mul);
 }
 
+// NUM 5
+/// возвращает суммы массива a размера n
+long long getSum(int *a, int n) {
+    int sum = 0;
+    for (size_t i = 0; i < n; i++)
+        sum += a[i];
+
+    return sum;
+}
+
+void test_getSum() {
+    int a[] = {1, 2, 3, 4};
+    assert(getSum(a, 4) == 10);
+}
+
+/// возвращает true, если все элементы массива a размера n
+/// уникальны, иначе - false
+bool isUnique(long long *a, int n) {
+    for (size_t i = 0; i < n; i++)
+        for (size_t j = i + 1; j < n; j++)
+            if (a[i] == a[j])
+                return false;
+
+    return true;
+}
+
+void test_isUnique() {
+    long long a[] = {1, 2, 3, 4};
+    long long b[] = {1, 2, 3, 3};
+    assert(isUnique(a, 4) && !isUnique(b, 4));
+}
+
+/// транспонировать матрицу, если среди сумм элементов строк матрицы нет равных
+void transposeIfMatrixHasEqualSumOfRows(matrix m, int nRows, int nCols) {
+    long long *a = (long long *) malloc(sizeof(long long) * nRows);
+    for (size_t i = 0; i < nRows; i++)
+        a[i] = getSum(m.values[i], nCols);
+    if (isUnique(a, nRows))
+        transposeSquareMatrix(m);
+}
+
+void test_transposeIfMatrixHasEqualSumOfRows_NotEqual() {
+    int a[] = {1, 2,
+               3, 4};
+    matrix ma = createMatrixFromArray(a, 2, 2);
+    transposeIfMatrixHasEqualSumOfRows(ma, ma.nRows, ma.nCols);
+    int resA[] = {1, 3,
+                  2, 4};
+    matrix mResA = createMatrixFromArray(resA, 2, 2);
+
+    assert(twoMatricesEqual(ma, mResA));
+
+    freeMemMatrix(ma);
+    freeMemMatrix(mResA);
+}
+
+void test_transposeIfMatrixHasEqualSumOfRows_Equal() {
+    int b[] = {2, 2,
+               3, 1};
+    matrix mb = createMatrixFromArray(b, 2, 2);
+    transposeIfMatrixHasEqualSumOfRows(mb, mb.nRows, mb.nCols);
+    int resB[] = {2, 2,
+                  3, 1};
+    matrix mResB = createMatrixFromArray(resB, 2, 2);
+
+    assert(twoMatricesEqual(mb, mResB));
+
+    freeMemMatrix(mb);
+    freeMemMatrix(mResB);
+}
+
 int main() {
     testVector();
     testMatrix();
@@ -447,6 +518,8 @@ int main() {
     test_sortColsByMinElement();
     test_getMulOfRowAndCol();
     test_mulMatrices();
+    test_transposeIfMatrixHasEqualSumOfRows_NotEqual();
+    test_transposeIfMatrixHasEqualSumOfRows_Equal();
 
     int nRows, nCols;
     scanf("%d %d", &nRows, &nCols);
@@ -454,8 +527,7 @@ int main() {
     matrix m = getMemMatrix(nRows, nCols);
     inputMatrix(m);
 
-    if (isSymmetricMatrix(m) && isSquareMatrix(m))
-        m = mulMatrices(m, m);
+    transposeIfMatrixHasEqualSumOfRows(m, m.nRows, m.nCols);
 
     outputMatrix(m);
 
