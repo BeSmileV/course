@@ -769,7 +769,9 @@ void test_sortByDistances() {
                12, 4,
                5, 22};
     matrix m2 = createMatrixFromArray(b, 3, 2);
+
     assert(twoMatricesEqual(m1, m2));
+
     freeMemMatrix(m1);
     freeMemMatrix(m2);
 }
@@ -780,7 +782,7 @@ int cmp_long_long(const void *pa, const void *pb) {
     long long *a = (long long *) pa;
     long long *b = (long long *) pb;
 
-    return (int)(*a - *b);
+    return (int) (*a - *b);
 }
 
 /// возвращает количество уникальных элементов в упорядоченном массиве a размера n
@@ -814,18 +816,74 @@ int countEqClassesByRowsSum(matrix m) {
     return count;
 }
 
-void test_countEqClassesByRowsSum(){
+void test_countEqClassesByRowsSum() {
     int a[] = {7, 1,
                8, 0,
                2, 3,
                4, 1};
     matrix m1 = createMatrixFromArray(a, 4, 2);
     assert(countEqClassesByRowsSum(m1) == 2);
+
+    freeMemMatrix(m1);
 }
 
-// NUM 11
+// NUM 12
+/// возвращает позицию самого левого минимального элемента
+position getLeftMin(matrix m) {
+    position min = {0, 0};
+    for (int j = 0; j < m.nCols; j++)
+        for (int i = 0; i < m.nRows; i++)
+            if (m.values[i][j] < m.values[min.rowIndex][min.colIndex]) {
+                min.rowIndex = i;
+                min.colIndex = j;
+            }
 
+    return min;
+}
 
+void test_getLeftMin() {
+    int a[] = {7, 1, 8, 2,
+               2, 3, 4, 1};
+    matrix m1 = createMatrixFromArray(a, 2, 4);
+    position min = getLeftMin(m1);
+
+    assert(min.rowIndex == 0 && min.colIndex == 1);
+
+    freeMemMatrix(m1);
+}
+
+/// заменяет предпоследнюю строку матрицы m первым из столбцов, в котором
+/// находится минимальный элемент матрицы
+void swapPenultimateRow(matrix m) {
+    position min = getLeftMin(m);
+    int *a = (int *) malloc(sizeof(int) * m.nRows);
+    for (size_t i = 0; i < m.nRows; i++)
+        a[i] = m.values[i][min.colIndex];
+    for (size_t i = 0; i < m.nRows; i++)
+        m.values[m.nRows - 2][i] = a[i];
+
+    free(a);
+}
+
+void test_swapPenultimateRow() {
+    int a[] = {2, 5, 7,
+               3, 1, 3,
+               4, 6, 9};
+    matrix m1 = createMatrixFromArray(a, 3, 3);
+    swapPenultimateRow(m1);
+
+    int b[] = {2, 5, 7,
+               5, 1, 6,
+               4, 6, 9};
+    matrix m2 = createMatrixFromArray(b, 3, 3);
+
+    assert(twoMatricesEqual(m1, m2));
+
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
+}
+
+// NUM 13
 
 int main() {
     testVector();
@@ -850,6 +908,8 @@ int main() {
     test_sortByDistances();
     test_countNUnique();
     test_countEqClassesByRowsSum();
+    test_getLeftMin();
+    test_swapPenultimateRow();
 
     int nRows1, nCols1;
     scanf("%d %d", &nRows1, &nCols1);
@@ -857,7 +917,9 @@ int main() {
     matrix m1 = getMemMatrix(nRows1, nCols1);
     inputMatrix(m1);
 
-    printf("%d", countEqClassesByRowsSum(m1));
+    swapPenultimateRow(m1);
+
+    outputMatrix(m1);
 
     return 0;
 }
