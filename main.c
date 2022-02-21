@@ -2,6 +2,7 @@
 #include <malloc.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <math.h>
 
 #include "libs/data_structures/vector/vector.h"
 #include "libs/data_structures/vectorVoid/vectorVoid.h"
@@ -691,6 +692,79 @@ void test_getMinInArea_MaxInTheLowerRightCorner() {
     freeMemMatrix(m);
 }
 
+// NUM 9
+/// возвращает значение дистанции точки, хранящейся в массиве a размера n, до начал координат
+float getDistance(int *a, int n) {
+    float sum = 0;
+    for (size_t i = 0; i < n; i++)
+        sum += (float) (a[i] * a[i]);
+
+    return sqrtf(sum);
+}
+
+void test_getDistance(){
+    int a[] = {3, 4, 1, 2, 3};
+    assert(getDistance(a, 5) - 7 < ERROR_RATE);
+    int b[] = {1, 2, 3};
+    assert(getDistance(b, 3) - sqrt(14) < ERROR_RATE);
+    int c[] = {22, 3, 4};
+    assert(getDistance(c, 3) - sqrt(509) < ERROR_RATE);
+}
+
+/// выполняет сортировку вставками строк матрицы m по неубыванию
+/// значения функции criteria применяемой для строк
+void insertionSortRowsMatrixByRowCriteriaF(matrix m, float (*criteria)(int *, int)) {
+    float *a = (float *) malloc(sizeof(float) * m.nRows);
+    for (size_t i = 0; i < m.nRows; i++)
+        a[i] = criteria(m.values[i], m.nCols);
+    for (int i = 1; i < m.nRows; i++) {
+        float t = a[i];
+        int j = i;
+        while (j > 0 && a[j - 1] - t > ERROR_RATE) {
+            a[j] = a[j - 1];
+            swapRows(m, j, j - 1);
+            j--;
+        }
+        a[j] = t;
+    }
+    free(a);
+}
+
+void test_insertionSortRowsMatrixByRowCriteriaF(){
+    int a[] = {3, 4,
+               5, 6,
+               1, 2};
+    matrix m1 = createMatrixFromArray(a, 3, 2);
+    insertionSortRowsMatrixByRowCriteriaF(m1, getDistance);
+    int b[] = {1, 2,
+               3, 4,
+               5, 6};
+    matrix m2 = createMatrixFromArray(b, 3, 2);
+    assert(twoMatricesEqual(m1, m2));
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
+}
+
+/// сортирует точки, хранящихся в матрице m по неубыванию их расстояний до начала координат
+void sortByDistances(matrix m) {
+    insertionSortRowsMatrixByRowCriteriaF(m, getDistance);
+}
+
+void test_sortByDistances(){
+    int a[] = {12, 4,
+               5, 22,
+               1, 2};
+    matrix m1 = createMatrixFromArray(a, 3, 2);
+    insertionSortRowsMatrixByRowCriteriaF(m1, getDistance);
+    int b[] = {1, 2,
+               12, 4,
+               5, 22};
+    matrix m2 = createMatrixFromArray(b, 3, 2);
+    assert(twoMatricesEqual(m1, m2));
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
+}
+
 int main() {
     testVector();
     testMatrix();
@@ -709,6 +783,9 @@ int main() {
     test_getMinInArea_inTheUpperRightCorner();
     test_getMinInArea_MaxInTheLowerLeftCorner();
     test_getMinInArea_MaxInTheLowerRightCorner();
+    test_getDistance();
+    test_insertionSortRowsMatrixByRowCriteriaF();
+    test_sortByDistances();
 
     int nRows1, nCols1;
     scanf("%d %d", &nRows1, &nCols1);
@@ -716,7 +793,9 @@ int main() {
     matrix m1 = getMemMatrix(nRows1, nCols1);
     inputMatrix(m1);
 
-    printf("%lld", findSumOfMaxesOfPseudoDiagonal(m1));
+    sortByDistances(m1);
+
+    outputMatrix(m1);
 
     return 0;
 }
