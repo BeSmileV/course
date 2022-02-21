@@ -362,6 +362,10 @@ void test_sortRowsByMinElement() {
     freeMemMatrix(res);
 }
 
+void test_task2(){
+    test_sortRowsByMinElement();
+}
+
 // NUM 3
 /// возвращает наименьший элемент массива a
 int getMin(int *a, int n) {
@@ -392,6 +396,10 @@ void test_sortColsByMinElement() {
 
     freeMemMatrix(m);
     freeMemMatrix(res);
+}
+
+void test_task3(){
+    test_sortColsByMinElement();
 }
 
 // NUM 4
@@ -459,6 +467,11 @@ void test_mulMatrices() {
     freeMemMatrix(m2);
     freeMemMatrix(res);
     freeMemMatrix(mul);
+}
+
+void test_task4(){
+    test_getMulOfRowAndCol();
+    test_mulMatrices();
 }
 
 // NUM 5
@@ -532,6 +545,11 @@ void test_transposeIfMatrixHasEqualSumOfRows_Equal() {
     freeMemMatrix(mResB);
 }
 
+void test_task5(){
+    test_transposeIfMatrixHasEqualSumOfRows_NotEqual();
+    test_transposeIfMatrixHasEqualSumOfRows_Equal();
+}
+
 // NUM 6
 /// возвращает true, если матрицы взаимообратные, иначе - false
 bool isMutuallyInverseMatrices(matrix m1, matrix m2) {
@@ -573,6 +591,11 @@ void test_isMutuallyInverseMatrices_NotMutuallyInverse() {
 
     freeMemMatrix(m1);
     freeMemMatrix(m2);
+}
+
+void test_task6(){
+    test_isMutuallyInverseMatrices_MutuallyInverse();
+    test_isMutuallyInverseMatrices_NotMutuallyInverse();
 }
 
 // NUM 7
@@ -629,6 +652,11 @@ void test_findSumOfMaxesOfPseudoDiagonal() {
 
     freeMemMatrix(m1);
     freeMemMatrix(m2);
+}
+
+void test_task7(){
+    test_max();
+    test_findSumOfMaxesOfPseudoDiagonal();
 }
 
 // NUM 8
@@ -699,6 +727,14 @@ void test_getMinInArea_MaxInTheLowerRightCorner() {
     assert(getMinInArea(m) == 5);
 
     freeMemMatrix(m);
+}
+
+void test_task8(){
+    test_getMinInArea_inTheCenter();
+    test_getMinInArea_inTheUpperLeftCorner();
+    test_getMinInArea_inTheUpperRightCorner();
+    test_getMinInArea_MaxInTheLowerLeftCorner();
+    test_getMinInArea_MaxInTheLowerRightCorner();
 }
 
 // NUM 9
@@ -776,6 +812,12 @@ void test_sortByDistances() {
     freeMemMatrix(m2);
 }
 
+void test_task9(){
+    test_getDistance();
+    test_insertionSortRowsMatrixByRowCriteriaF();
+    test_sortByDistances();
+}
+
 // NUM 10
 /// возвращает 1, если значение по указателю pa больше pb, если наоборот -1, иначе - 0
 int cmp_long_long(const void *pa, const void *pb) {
@@ -825,6 +867,11 @@ void test_countEqClassesByRowsSum() {
     assert(countEqClassesByRowsSum(m1) == 2);
 
     freeMemMatrix(m1);
+}
+
+void test_task10(){
+    test_countNUnique();
+    test_countEqClassesByRowsSum();
 }
 
 // NUM 11
@@ -885,6 +932,11 @@ void test_getNSpecialElement() {
     freeMemMatrix(m2);
 }
 
+void test_task11(){
+    test_getSumOfColsElements();
+    test_getNSpecialElement();
+}
+
 // NUM 12
 /// возвращает позицию самого левого минимального элемента
 position getLeftMin(matrix m) {
@@ -939,6 +991,11 @@ void test_swapPenultimateRow() {
 
     freeMemMatrix(m1);
     freeMemMatrix(m2);
+}
+
+void test_task12(){
+    test_getLeftMin();
+    test_swapPenultimateRow();
 }
 
 // NUM 13
@@ -1017,6 +1074,14 @@ void test_countNonDescendingRowsMatrices() {
     freeMemMatrices(ms, 3);
 }
 
+void test_task13(){
+    test_isNonDescendingSorted_Sorted();
+    test_isNonDescendingSorted_Unsorted();
+    test_hasAllNonDescendingRows_Unsorted();
+    test_hasAllNonDescendingRows_Sorted();
+    test_countNonDescendingRowsMatrices();
+}
+
 // NUM 14
 /// возвращает количество элементов равны value в массиве a размера n
 int countValues(const int *a, int n, int value){
@@ -1080,40 +1145,85 @@ void printMatrixWithMaxZeroRows(matrix *ms, int nMatrix){
     free(a);
 }
 
+void test_task14(){
+    test_countValues();
+    test_countZeroRows();
+}
+
+// NUM 15
+/// возвращает максимальную абсолютную величину матрицы m
+int getMaxAbs(matrix m){
+    int max = abs(m.values[0][0]);
+    for(size_t i = 0; i < m.nRows; i++)
+        for(size_t j = 0; j < m.nCols; j++) {
+            int a = abs(m.values[i][j]);
+            if (max < a)
+                max = a;
+        }
+
+    return max;
+}
+
+void test_getMaxAbs(){
+    int a[] = {1, 0, 0,
+               0, -100, 3,
+               4, 0, 9};
+    matrix m1 = createMatrixFromArray(a, 3, 3);
+
+    int b[] = {1, 1, 0,
+               22, 1, 3,
+               4, 0, 9};
+    matrix m2 = createMatrixFromArray(b, 3, 3);
+
+    assert(getMaxAbs(m1) == 100 && getMaxAbs(m2) == 22);
+
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
+}
+
+/// выводит матрицы массива матриц ms размера n с наименьшем значение abs
+void printMatrixWithMinAbsOfElement(matrix *ms, int n){
+    int *a = (int *) malloc(sizeof(int) * n);
+    int min = getMaxAbs(ms[0]);
+    a[0] = min;
+    for(size_t i = 1; i < n; i++) {
+        a[i] = getMaxAbs(ms[i]);
+        if (min > a[i])
+            min = a[i];
+    }
+
+    for(size_t i = 0; i < n; i++)
+        if(a[i] == min)
+            outputMatrix(ms[i]);
+
+    free(a);
+}
+
+void test_task15(){
+    test_getMaxAbs();
+}
+
+void test_tasks(){
+    test_task2();
+    test_task3();
+    test_task4();
+    test_task5();
+    test_task6();
+    test_task7();
+    test_task8();
+    test_task9();
+    test_task10();
+    test_task11();
+    test_task12();
+    test_task13();
+    test_task14();
+    test_task15();
+}
+
 int main() {
     testVector();
     testMatrix();
-    test_sortRowsByMinElement();
-    test_sortColsByMinElement();
-    test_getMulOfRowAndCol();
-    test_mulMatrices();
-    test_transposeIfMatrixHasEqualSumOfRows_NotEqual();
-    test_transposeIfMatrixHasEqualSumOfRows_Equal();
-    test_isMutuallyInverseMatrices_MutuallyInverse();
-    test_isMutuallyInverseMatrices_NotMutuallyInverse();
-    test_max();
-    test_findSumOfMaxesOfPseudoDiagonal();
-    test_getMinInArea_inTheCenter();
-    test_getMinInArea_inTheUpperLeftCorner();
-    test_getMinInArea_inTheUpperRightCorner();
-    test_getMinInArea_MaxInTheLowerLeftCorner();
-    test_getMinInArea_MaxInTheLowerRightCorner();
-    test_getDistance();
-    test_insertionSortRowsMatrixByRowCriteriaF();
-    test_sortByDistances();
-    test_countNUnique();
-    test_countEqClassesByRowsSum();
-    test_getLeftMin();
-    test_swapPenultimateRow();
-    test_isNonDescendingSorted_Sorted();
-    test_isNonDescendingSorted_Unsorted();
-    test_hasAllNonDescendingRows_Unsorted();
-    test_hasAllNonDescendingRows_Sorted();
-    test_countNonDescendingRowsMatrices();
-    test_getSumOfColsElements();
-    test_getNSpecialElement();
-    test_countValues();
-    test_countZeroRows();
+    test_tasks();
 
     int n, nRows1, nCols1;
     scanf("%d %d %d", &n, &nRows1, &nCols1);
@@ -1121,7 +1231,7 @@ int main() {
     matrix *ms = getMemArrayOfMatrices(n, nRows1, nCols1);
     inputMatrices(ms, n);
 
-    printMatrixWithMaxZeroRows(ms, n);
+    printMatrixWithMinAbsOfElement(ms, n);
 
     return 0;
 }
