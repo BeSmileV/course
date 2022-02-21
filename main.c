@@ -884,6 +884,80 @@ void test_swapPenultimateRow() {
 }
 
 // NUM 13
+/// возвращает true, если массив отсортирован, иначе - false
+bool isNonDescendingSorted(int *a, int n) {
+    for (size_t i = 1; i < n; i++)
+        if (a[i] < a[i - 1])
+            return false;
+
+    return true;
+}
+
+void test_isNonDescendingSorted_Sorted() {
+    int a[] = {1, 2, 3, 4};
+    assert(isNonDescendingSorted(a, 4));
+}
+
+void test_isNonDescendingSorted_Unsorted() {
+    int a[] = {1, 4, 3, 2};
+    assert(!isNonDescendingSorted(a, 4));
+}
+
+/// возвращает true, если все строки матрицы m отсортирован, иначе - false
+bool hasAllNonDescendingRows(matrix m) {
+    for (int i = 0; i < m.nRows; i++)
+        if (!isNonDescendingSorted(m.values[i], m.nCols))
+            return false;
+
+    return true;
+}
+
+void test_hasAllNonDescendingRows_Unsorted() {
+    int a[] = {2, 5, 7,
+               3, 1, 3,
+               4, 6, 9};
+    matrix m1 = createMatrixFromArray(a, 3, 3);
+
+    assert(!hasAllNonDescendingRows(m1));
+
+    freeMemMatrix(m1);
+}
+
+void test_hasAllNonDescendingRows_Sorted() {
+    int a[] = {2, 5, 7,
+               3, 3, 3,
+               4, 6, 9};
+    matrix m1 = createMatrixFromArray(a, 3, 3);
+
+    assert(hasAllNonDescendingRows(m1));
+
+    freeMemMatrix(m1);
+}
+
+/// возвращает число матриц в массиве матриц ms размера nMatrix,
+/// строки которых упорядочены по неубыванию элементов
+int countNonDescendingRowsMatrices(matrix *ms, int nMatrix) {
+    int count = 0;
+    for (size_t i = 0; i < nMatrix; i++)
+        count += hasAllNonDescendingRows(ms[i]);
+
+    return count;
+}
+
+void test_countNonDescendingRowsMatrices() {
+    int a[] = {1, 2,
+               3, 4,
+
+               2, 1,
+               3, 4,
+
+               2, 2,
+               3, 3};
+    matrix *ms = createArrayOfMatrixFromArray(a, 3, 2, 2);
+    assert(countNonDescendingRowsMatrices(ms, 3) == 2);
+
+    freeMemMatrices(ms, 3);
+}
 
 int main() {
     testVector();
@@ -910,16 +984,19 @@ int main() {
     test_countEqClassesByRowsSum();
     test_getLeftMin();
     test_swapPenultimateRow();
+    test_isNonDescendingSorted_Sorted();
+    test_isNonDescendingSorted_Unsorted();
+    test_hasAllNonDescendingRows_Unsorted();
+    test_hasAllNonDescendingRows_Sorted();
+    test_countNonDescendingRowsMatrices();
 
-    int nRows1, nCols1;
-    scanf("%d %d", &nRows1, &nCols1);
+    int n, nRows1, nCols1;
+    scanf("%d %d %d", &n, &nRows1, &nCols1);
 
-    matrix m1 = getMemMatrix(nRows1, nCols1);
-    inputMatrix(m1);
+    matrix *ms = getMemArrayOfMatrices(n, nRows1, nCols1);
+    inputMatrices(ms, n);
 
-    swapPenultimateRow(m1);
-
-    outputMatrix(m1);
+    printf("%d", countNonDescendingRowsMatrices(ms, n));
 
     return 0;
 }

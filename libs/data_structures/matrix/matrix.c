@@ -203,7 +203,7 @@ matrix mulMatrices(matrix m1, matrix m2) {
     matrix mul = getMemMatrix(mulNRows, mulNCols);
     for (int i = 0; i < mulNRows; i++) {
         for (int j = 0; j < mulNCols; j++)
-            mul.values[i][j] = getMulOfRowAndCol_(m1, m2, i, j, n);
+            mul.values[i][j] = getMulOfRowAndCol(m1, m2, i, j, n);
     }
 
     return mul;
