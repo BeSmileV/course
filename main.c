@@ -1017,6 +1017,68 @@ void test_countNonDescendingRowsMatrices() {
     freeMemMatrices(ms, 3);
 }
 
+// NUM 14
+/// возвращает количество элементов равны value в массиве a размера n
+int countValues(const int *a, int n, int value){
+    int count = 0;
+    for(size_t i = 0; i < n; i++)
+        if(a[i] == value)
+            count++;
+
+    return count;
+}
+
+void test_countValues(){
+    int a[] = {1, 2 ,3 ,3, 4, 3, 2};
+
+    assert(countValues(a, 7, 3) == 3  && countValues(a, 7, 2) == 2);
+}
+
+/// возвращает количество нулевых строк в матрице m
+int countZeroRows(matrix m){
+    int count = 0;
+    for(size_t i = 0; i < m.nRows; i++)
+            if(countValues(m.values[i], m.nCols, 0) == m.nCols)
+                count++;
+
+    return count;
+}
+
+void test_countZeroRows(){
+    int a[] = {0, 0, 0,
+               0, 0, 3,
+               4, 0, 9};
+    matrix m1 = createMatrixFromArray(a, 3, 3);
+
+    int b[] = {0, 1, 0,
+               0, 1, 3,
+               4, 0, 9};
+    matrix m2 = createMatrixFromArray(b, 3, 3);
+
+    assert(countZeroRows(m1) == 1 && countZeroRows(m2) == 0);
+
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
+}
+
+/// выводит матрицы массива матриц ms размера nMatrix,
+/// имеющие наибольшее число нулевых строк
+void printMatrixWithMaxZeroRows(matrix *ms, int nMatrix){
+    int *a = (int *) malloc(sizeof(int) * nMatrix);
+
+    int max = countZeroRows(ms[0]);
+    a[0] = max;
+    for(size_t i = 1; i < nMatrix; i++) {
+        a[i] = countZeroRows(ms[i]);
+        if (a[i] > max)
+            max = a[i];
+    }
+    for(size_t i = 0; i < nMatrix; i++)
+        if(a[i] == max)
+            outputMatrix(ms[i]);
+
+    free(a);
+}
 
 int main() {
     testVector();
@@ -1050,6 +1112,8 @@ int main() {
     test_countNonDescendingRowsMatrices();
     test_getSumOfColsElements();
     test_getNSpecialElement();
+    test_countValues();
+    test_countZeroRows();
 
     int n, nRows1, nCols1;
     scanf("%d %d %d", &n, &nRows1, &nCols1);
@@ -1057,7 +1121,7 @@ int main() {
     matrix *ms = getMemArrayOfMatrices(n, nRows1, nCols1);
     inputMatrices(ms, n);
 
-    printf("%d", countNonDescendingRowsMatrices(ms, n));
+    printMatrixWithMaxZeroRows(ms, n);
 
     return 0;
 }
