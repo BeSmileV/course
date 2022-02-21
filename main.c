@@ -588,27 +588,29 @@ void test_max() {
 
 /// возвращает сумму максимальных значений псевдодиагоналей матрицы m
 long long findSumOfMaxesOfPseudoDiagonal(matrix m) {
-    size_t n = m.nCols + m.nRows - 2;
+    size_t n = m.nCols + m.nRows - 1;
     int *arrayOFMaxes = (int *) malloc(sizeof(int) * n);
 
     for (int i = 0; i < m.nRows - 1; i++)
         arrayOFMaxes[i] = m.values[i + 1][0];
 
-    for (int i = 0; i < m.nCols - 1; i++)
-        arrayOFMaxes[i + m.nRows - 1] = m.values[0][i + 1];
+    for (int i = 0; i < m.nCols; i++)
+        arrayOFMaxes[i + m.nRows - 1] = m.values[0][i];
 
     for (int i = 1; i < m.nRows; i++)
         for (int j = 1; j < m.nCols; j++) {
             int dif = j - i;
-            if (dif > 0)
-                arrayOFMaxes[dif + m.nRows - 2] = max(arrayOFMaxes[dif + m.nRows - 2], m.values[i][j]);
-            else if (dif < 0)
+            if (dif >= 0)
+                arrayOFMaxes[dif + m.nRows - 1] = max(arrayOFMaxes[dif + m.nRows - 1], m.values[i][j]);
+            else
                 arrayOFMaxes[-dif - 1] = max(arrayOFMaxes[-dif - 1], m.values[i][j]);
         }
-
     long long sum = 0;
     for (int i = 0; i < n; i++)
         sum += arrayOFMaxes[i];
+    sum -= arrayOFMaxes[m.nRows - 1];
+
+    free(arrayOFMaxes);
 
     return sum;
 }
@@ -617,10 +619,16 @@ void test_findSumOfMaxesOfPseudoDiagonal() {
     int a[] = {1, 3, 5, 7,
                2, 5, 6, 7,
                14, 2, 3, -1};
-    matrix m = createMatrixFromArray(a, 3, 4);
-    assert(findSumOfMaxesOfPseudoDiagonal(m) == 36);
+    matrix m1 = createMatrixFromArray(a, 3, 4);
+    assert(findSumOfMaxesOfPseudoDiagonal(m1) == 36);
+    int b[] = {1, 3, 3, 2,
+               22, 5, 6, 2,
+               124, 12, 3, 2};
+    matrix m2 = createMatrixFromArray(b, 3, 4);
+    assert(findSumOfMaxesOfPseudoDiagonal(m2) == 157);
 
-    freeMemMatrix(m);
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
 }
 
 // NUM 8
@@ -814,6 +822,10 @@ void test_countEqClassesByRowsSum(){
     matrix m1 = createMatrixFromArray(a, 4, 2);
     assert(countEqClassesByRowsSum(m1) == 2);
 }
+
+// NUM 11
+
+
 
 int main() {
     testVector();
