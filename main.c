@@ -621,6 +621,76 @@ void test_findSumOfMaxesOfPseudoDiagonal() {
     freeMemMatrix(m);
 }
 
+// NUM 8
+/// возвращает минимальный элемент матрицы в треугольной области выше максимального
+int getMinInArea(matrix m) {
+    position max = getMaxValuePos(m);
+    int min = m.values[max.rowIndex][max.colIndex];
+    for(int i = 0; i < max.rowIndex; i++) {
+        int leftColIndex = max.colIndex - max.rowIndex + i;
+        if (leftColIndex < 0)
+            leftColIndex = 0;
+        int rightColIndex = leftColIndex + 2 * max.rowIndex + 1;
+        if(rightColIndex >= m.nCols)
+            rightColIndex = m.nCols - 1;
+        for (int j = leftColIndex; j <= rightColIndex; j++)
+            if (min > m.values[i][j])
+                min = m.values[i][j];
+    }
+
+    return min;
+}
+
+void test_getMinInArea_inTheCenter() {
+    int a[] = {10, 7, 5, 6,
+               3, 11, 8, 9,
+               4, 1, 12, 2};
+    matrix m = createMatrixFromArray(a, 3, 4);
+    assert(getMinInArea(m) == 5);
+
+    freeMemMatrix(m);
+}
+
+void test_getMinInArea_inTheUpperLeftCorner() {
+    int a[] = {-1, 7, 5, 6,
+               3, 11, 8, 9,
+               4, 1, 12, 2};
+    matrix m = createMatrixFromArray(a, 3, 4);
+    assert(getMinInArea(m) == -1);
+
+    freeMemMatrix(m);
+}
+
+void test_getMinInArea_inTheUpperRightCorner() {
+    int a[] = {10, 7, 5, -1,
+               3, 11, 8, 9,
+               4, 1, 12, 2};
+    matrix m = createMatrixFromArray(a, 3, 4);
+    assert(getMinInArea(m) == -1);
+
+    freeMemMatrix(m);
+}
+
+void test_getMinInArea_MaxInTheLowerLeftCorner() {
+    int a[] = {10, 7, 5, 6,
+               3, 11, 8, 9,
+               12, 1, 11, 2};
+    matrix m = createMatrixFromArray(a, 3, 4);
+    assert(getMinInArea(m) == 3);
+
+    freeMemMatrix(m);
+}
+
+void test_getMinInArea_MaxInTheLowerRightCorner() {
+    int a[] = {10, 7, 5, 6,
+               3, 11, 8, 9,
+               10, 1, 11, 12};
+    matrix m = createMatrixFromArray(a, 3, 4);
+    assert(getMinInArea(m) == 5);
+
+    freeMemMatrix(m);
+}
+
 int main() {
     testVector();
     testMatrix();
@@ -634,6 +704,11 @@ int main() {
     test_isMutuallyInverseMatrices_NotMutuallyInverse();
     test_max();
     test_findSumOfMaxesOfPseudoDiagonal();
+    test_getMinInArea_inTheCenter();
+    test_getMinInArea_inTheUpperLeftCorner();
+    test_getMinInArea_inTheUpperRightCorner();
+    test_getMinInArea_MaxInTheLowerLeftCorner();
+    test_getMinInArea_MaxInTheLowerRightCorner();
 
     int nRows1, nCols1;
     scanf("%d %d", &nRows1, &nCols1);
