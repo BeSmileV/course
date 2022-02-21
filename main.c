@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <math.h>
 
+#include "libs/algorithms/array/array.h"
 #include "libs/data_structures/vector/vector.h"
 #include "libs/data_structures/vectorVoid/vectorVoid.h"
 #include "libs/data_structures/matrix/matrix.h"
@@ -627,12 +628,12 @@ void test_findSumOfMaxesOfPseudoDiagonal() {
 int getMinInArea(matrix m) {
     position max = getMaxValuePos(m);
     int min = m.values[max.rowIndex][max.colIndex];
-    for(int i = 0; i < max.rowIndex; i++) {
+    for (int i = 0; i < max.rowIndex; i++) {
         int leftColIndex = max.colIndex - max.rowIndex + i;
         if (leftColIndex < 0)
             leftColIndex = 0;
         int rightColIndex = leftColIndex + 2 * max.rowIndex + 1;
-        if(rightColIndex >= m.nCols)
+        if (rightColIndex >= m.nCols)
             rightColIndex = m.nCols - 1;
         for (int j = leftColIndex; j <= rightColIndex; j++)
             if (min > m.values[i][j])
@@ -702,7 +703,7 @@ float getDistance(int *a, int n) {
     return sqrtf(sum);
 }
 
-void test_getDistance(){
+void test_getDistance() {
     int a[] = {3, 4, 1, 2, 3};
     assert(getDistance(a, 5) - 7 < ERROR_RATE);
     int b[] = {1, 2, 3};
@@ -730,7 +731,7 @@ void insertionSortRowsMatrixByRowCriteriaF(matrix m, float (*criteria)(int *, in
     free(a);
 }
 
-void test_insertionSortRowsMatrixByRowCriteriaF(){
+void test_insertionSortRowsMatrixByRowCriteriaF() {
     int a[] = {3, 4,
                5, 6,
                1, 2};
@@ -750,7 +751,7 @@ void sortByDistances(matrix m) {
     insertionSortRowsMatrixByRowCriteriaF(m, getDistance);
 }
 
-void test_sortByDistances(){
+void test_sortByDistances() {
     int a[] = {12, 4,
                5, 22,
                1, 2};
@@ -763,6 +764,55 @@ void test_sortByDistances(){
     assert(twoMatricesEqual(m1, m2));
     freeMemMatrix(m1);
     freeMemMatrix(m2);
+}
+
+// NUM 10
+/// возвращает 1, если значение по указателю pa больше pb, если наоборот -1, иначе - 0
+int cmp_long_long(const void *pa, const void *pb) {
+    long long *a = (long long *) pa;
+    long long *b = (long long *) pb;
+
+    return (int)(*a - *b);
+}
+
+/// возвращает количество уникальных элементов в упорядоченном массиве a размера n
+int countNUnique(long long *a, int n) {
+    int count = 0;
+    for (size_t i = 1; i < n; i++)
+        if (a[i] != a[i - 1])
+            count++;
+
+    return count + 1;
+}
+
+void test_countNUnique() {
+    long long a[] = {1, 2, 2, 3, 4};
+    assert(countNUnique(a, 5) == 4);
+    long long b[] = {1, 2, 3, 4};
+    assert(countNUnique(b, 4) == 4);
+}
+
+/// возвращает количество классов эквивалентных строк данной прямоугольной матрицы m
+int countEqClassesByRowsSum(matrix m) {
+    int n = m.nRows;
+    long long *a = (long long *) malloc(sizeof(long long) * n);
+    for (size_t i = 0; i < n; i++)
+        a[i] = getSum(m.values[i], m.nCols);
+    qsort(a, n, sizeof(long long), cmp_long_long);
+    int count = countNUnique(a, n);
+
+    free(a);
+
+    return count;
+}
+
+void test_countEqClassesByRowsSum(){
+    int a[] = {7, 1,
+               8, 0,
+               2, 3,
+               4, 1};
+    matrix m1 = createMatrixFromArray(a, 4, 2);
+    assert(countEqClassesByRowsSum(m1) == 2);
 }
 
 int main() {
@@ -786,6 +836,8 @@ int main() {
     test_getDistance();
     test_insertionSortRowsMatrixByRowCriteriaF();
     test_sortByDistances();
+    test_countNUnique();
+    test_countEqClassesByRowsSum();
 
     int nRows1, nCols1;
     scanf("%d %d", &nRows1, &nCols1);
@@ -793,9 +845,7 @@ int main() {
     matrix m1 = getMemMatrix(nRows1, nCols1);
     inputMatrix(m1);
 
-    sortByDistances(m1);
-
-    outputMatrix(m1);
+    printf("%d", countEqClassesByRowsSum(m1));
 
     return 0;
 }
