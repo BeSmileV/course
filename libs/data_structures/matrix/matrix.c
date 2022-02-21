@@ -79,7 +79,7 @@ void insertionSortRowsMatrixByRowCriteria(matrix m, int (*criteria)(int *, int))
     free(a);
 }
 
-void insertionSortColsMatrixByColCriteria(matrix m, int (*criteria)(int *, int)) {
+void selectionSortColsMatrixByColCriteria(matrix m, int (*criteria)(int *, int)) {
     int *buffer = (int *) malloc(sizeof(int) * m.nRows);
     int *a = (int *) malloc(sizeof(int) * m.nCols);
     for (size_t i = 0; i < m.nCols; i++) {
@@ -88,15 +88,13 @@ void insertionSortColsMatrixByColCriteria(matrix m, int (*criteria)(int *, int))
         a[i] = criteria(buffer, m.nRows);
     }
     free(buffer);
-    for (int i = 1; i < m.nCols; i++) {
-        int t = a[i];
-        int j = i;
-        while (j > 0 && a[j - 1] > t) {
-            a[j] = a[j - 1];
-            swapColumns(m, j, j - 1);
-            j--;
-        }
-        a[j] = t;
+    for (int i = 0; i < m.nCols - 1; i++) {
+        int minPos = i;
+        for (size_t j = i + 1; j < m.nCols; j++)
+            if (a[j] < a[minPos])
+                minPos = j;
+        swap(&a[i], &a[minPos]);
+        swapColumns(m, i, minPos);
     }
     free(a);
 }
@@ -190,23 +188,23 @@ matrix *createArrayOfMatrixFromArray(const int *values, int nMatrices, int nRows
     return ms;
 }
 
-//int getMulOfRowAndCol(matrix m1, matrix m2, int indexRow, int indexCol, int n){
-//    int mul = 0;
-//    for(size_t i = 0; i < n; i++)
-//        mul += m1.values[indexRow][i] * m2.values[i][indexCol];
-//
-//    return mul;
-//}
-//
-//matrix mulMatrices(matrix m1, matrix m2){
-//    int mulNRows = m1.nRows;
-//    int mulNCols = m2.nCols;
-//    int n = m1.nCols;
-//    matrix mul = getMemMatrix(mulNRows, mulNCols);
-//    for(int i = 0; i < mulNRows; i++){
-//        for(int j = 0; j < mulNCols; j++)
-//            mul.values[i][j] = getMulOfRowAndCol(m1, m2, i, j, n);
-//    }
-//
-//    return mul;
-//}
+int getMulOfRowAndCol(matrix m1, matrix m2, int indexRow, int indexCol, int n) {
+    int mul = 0;
+    for (size_t i = 0; i < n; i++)
+        mul += m1.values[indexRow][i] * m2.values[i][indexCol];
+
+    return mul;
+}
+
+matrix mulMatrices(matrix m1, matrix m2) {
+    int mulNRows = m1.nRows;
+    int mulNCols = m2.nCols;
+    int n = m1.nCols;
+    matrix mul = getMemMatrix(mulNRows, mulNCols);
+    for (int i = 0; i < mulNRows; i++) {
+        for (int j = 0; j < mulNCols; j++)
+            mul.values[i][j] = getMulOfRowAndCol_(m1, m2, i, j, n);
+    }
+
+    return mul;
+}

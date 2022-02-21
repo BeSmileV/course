@@ -44,7 +44,7 @@ void sortColsByMinElement(matrix m){
     insertionSortColsMatrixByColCriteria(m, getMin);
 }
 
-int getMulOfRowAndCol(matrix m1, matrix m2, int indexRow, int indexCol, int n){
+int getMulOfRowAndCol_(matrix m1, matrix m2, int indexRow, int indexCol, int n){
     int mul = 0;
     for(size_t i = 0; i < n; i++)
         mul += m1.values[indexRow][i] * m2.values[i][indexCol];

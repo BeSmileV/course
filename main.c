@@ -289,7 +289,7 @@ void test_insertionSortColsMatrixByRowCriteria() {
     int a[] = {1, 3, 2,
                4, 6, 5};
     matrix m1 = createMatrixFromArray(a, 2, 3);
-    insertionSortColsMatrixByColCriteria(m1, getMax);
+    selectionSortColsMatrixByColCriteria(m1, getMax);
     int b[] = {1, 2, 3,
                4, 5, 6};
     matrix m2 = createMatrixFromArray(b, 2, 3);
@@ -354,7 +354,7 @@ int getMin(int *a, int n) {
 
 /// упорядочивает столбцы матрицы по неубыванию минимальных элементов столбцов
 void sortColsByMinElement(matrix m) {
-    insertionSortColsMatrixByColCriteria(m, getMin);
+    selectionSortColsMatrixByColCriteria(m, getMin);
 }
 
 void test_sortColsByMinElement() {
@@ -376,7 +376,7 @@ void test_sortColsByMinElement() {
 // NUM 4
 /// возвращает произведение строки indexRow матрицы m1 и столбца indexCol матрицы m2,
 /// линна строки и столбца n
-int getMulOfRowAndCol(matrix m1, matrix m2, int indexRow, int indexCol, int n) {
+int getMulOfRowAndCol_(matrix m1, matrix m2, int indexRow, int indexCol, int n) {
     int mul = 0;
     for (size_t i = 0; i < n; i++)
         mul += m1.values[indexRow][i] * m2.values[i][indexCol];
@@ -395,21 +395,21 @@ void test_getMulOfRowAndCol() {
                7, 8, 9};
     matrix m2 = createMatrixFromArray(b, 3, 3);
 
-    assert(getMulOfRowAndCol(m1, m2, 1, 2, 3) == 93);
+    assert(getMulOfRowAndCol_(m1, m2, 1, 2, 3) == 93);
 
     freeMemMatrix(m1);
     freeMemMatrix(m2);
 }
 
 /// возвращает матрицу равной произведению матриц m1 и m2
-matrix mulMatrices(matrix m1, matrix m2) {
+matrix mulMatrices_(matrix m1, matrix m2) {
     int mulNRows = m1.nRows;
     int mulNCols = m2.nCols;
     int n = m1.nCols;
     matrix mul = getMemMatrix(mulNRows, mulNCols);
     for (int i = 0; i < mulNRows; i++) {
         for (int j = 0; j < mulNCols; j++)
-            mul.values[i][j] = getMulOfRowAndCol(m1, m2, i, j, n);
+            mul.values[i][j] = getMulOfRowAndCol_(m1, m2, i, j, n);
     }
 
     return mul;
@@ -426,7 +426,7 @@ void test_mulMatrices() {
                7, 8, 9};
     matrix m2 = createMatrixFromArray(b, 3, 3);
 
-    matrix mul = mulMatrices(m1, m2);
+    matrix mul = mulMatrices_(m1, m2);
     int c[] = {20, 28, 36,
                65, 79, 93,
                30, 39, 48};
@@ -511,6 +511,49 @@ void test_transposeIfMatrixHasEqualSumOfRows_Equal() {
     freeMemMatrix(mResB);
 }
 
+// NUM 6
+/// возвращает true, если матрицы взаимообратные, иначе - false
+bool isMutuallyInverseMatrices(matrix m1, matrix m2) {
+    matrix mul = mulMatrices_(m1, m2);
+    bool isE = isEMatrix(mul);
+    freeMemMatrix(mul);
+    return isE;
+}
+
+void test_isMutuallyInverseMatrices_MutuallyInverse() {
+    int a[] = {1, 1, 0,
+               1, 1, 1,
+               0, 1, 1};
+    matrix m1 = createMatrixFromArray(a, 3, 3);
+
+    int b[] = {0, 1, -1,
+               1, -1, 1,
+               -1, 1, 0};
+    matrix m2 = createMatrixFromArray(b, 3, 3);
+
+    assert(isMutuallyInverseMatrices(m1, m2));
+
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
+}
+
+void test_isMutuallyInverseMatrices_NotMutuallyInverse() {
+    int a[] = {1, 1, 12,
+               1, 1, 1,
+               0, 1, 1};
+    matrix m1 = createMatrixFromArray(a, 3, 3);
+
+    int b[] = {0, 1, -1,
+               1, -1, 1,
+               -1, 1, 0};
+    matrix m2 = createMatrixFromArray(b, 3, 3);
+
+    assert(!isMutuallyInverseMatrices(m1, m2));
+
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
+}
+
 int main() {
     testVector();
     testMatrix();
@@ -520,16 +563,22 @@ int main() {
     test_mulMatrices();
     test_transposeIfMatrixHasEqualSumOfRows_NotEqual();
     test_transposeIfMatrixHasEqualSumOfRows_Equal();
+    test_isMutuallyInverseMatrices_MutuallyInverse();
+    test_isMutuallyInverseMatrices_NotMutuallyInverse();
 
-    int nRows, nCols;
-    scanf("%d %d", &nRows, &nCols);
+    int nRows1, nCols1;
+    scanf("%d %d", &nRows1, &nCols1);
 
-    matrix m = getMemMatrix(nRows, nCols);
-    inputMatrix(m);
+    matrix m1 = getMemMatrix(nRows1, nCols1);
+    inputMatrix(m1);
 
-    transposeIfMatrixHasEqualSumOfRows(m, m.nRows, m.nCols);
+    int nRows2, nCols2;
+    scanf("%d %d", &nRows2, &nCols2);
 
-    outputMatrix(m);
+    matrix m2 = getMemMatrix(nRows2, nCols2);
+    inputMatrix(m2);
+
+    printf("%d", isMutuallyInverseMatrices(m1, m2));
 
     return 0;
 }

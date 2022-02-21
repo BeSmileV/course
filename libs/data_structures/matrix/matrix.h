@@ -52,7 +52,7 @@ void insertionSortRowsMatrixByRowCriteria(matrix m, int (*criteria)(int *, int))
 
 /// выполняет сортировку вставками столбцов матрицы m по неубыванию
 /// значения функции criteria применяемой для столбцов
-void insertionSortColsMatrixByColCriteria(matrix m, int (*criteria)(int *, int));
+void selectionSortColsMatrixByColCriteria(matrix m, int (*criteria)(int *, int));
 
 /// возвращает true, если матрица m является квадратной, иначе - false
 bool isSquareMatrix(matrix m);
@@ -76,7 +76,7 @@ position getMinValuePos(matrix m);
 position getMaxValuePos(matrix m);
 
 /// возвращает матрицу, равной произведению матриц m1 и m2
-//matrix mulMatrices(matrix m1, matrix m2);
+matrix mulMatrices(matrix m1, matrix m2);
 
 matrix createMatrixFromArray(const int *a, int nRows, int nCols);
 
