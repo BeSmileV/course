@@ -169,15 +169,18 @@ void test_isSquareMatrix_SquareMatrix() {
 }
 
 void test_isSquareMatrix_NotSquareMatrix() {
-    int a[] = {1, 2, 3, 4, 5, 6};
+    int a[] = {1, 2, 3,
+               4, 5, 6};
     matrix m = createMatrixFromArray(a, 2, 3);
     assert(!isSquareMatrix(m));
     freeMemMatrix(m);
 }
 
 void test_twoMatricesEqual_EqualMatrices() {
-    int a[] = {1, 2, 3, 4};
-    int b[] = {1, 2, 3, 4};
+    int a[] = {1, 2,
+               3, 4};
+    int b[] = {1, 2,
+               3, 4};
     matrix m1 = createMatrixFromArray(a, 2, 2);
     matrix m2 = createMatrixFromArray(b, 2, 2);
     assert(twoMatricesEqual(m1, m2));
@@ -186,8 +189,10 @@ void test_twoMatricesEqual_EqualMatrices() {
 }
 
 void test_twoMatricesEqual_NotEqualMatrices() {
-    int a[] = {1, 2, 3, 4};
-    int b[] = {3, 3, 3, 3};
+    int a[] = {1, 2,
+               3, 4};
+    int b[] = {3, 3,
+               3, 3};
     matrix m1 = createMatrixFromArray(a, 2, 2);
     matrix m2 = createMatrixFromArray(b, 2, 2);
     assert(!twoMatricesEqual(m1, m2));
@@ -196,52 +201,60 @@ void test_twoMatricesEqual_NotEqualMatrices() {
 }
 
 void test_isEMatrix_EMatrix() {
-    int a[] = {1, 0, 0, 1};
+    int a[] = {1, 0,
+               0, 1};
     matrix m = createMatrixFromArray(a, 2, 2);
     assert(isEMatrix(m));
     freeMemMatrix(m);
 }
 
 void test_isEMatrix_NotEMatrix() {
-    int a[] = {1, 1, 1, 0};
+    int a[] = {1, 1,
+               1, 0};
     matrix m = createMatrixFromArray(a, 2, 2);
     assert(!isEMatrix(m));
     freeMemMatrix(m);
 }
 
 void test_isEMatrix_NotSquareMatrix() {
-    int a[] = {1, 0, 0, 0, 1, 0};
+    int a[] = {1, 0, 0,
+               0, 1, 0};
     matrix m = createMatrixFromArray(a, 2, 3);
     assert(!isEMatrix(m));
     freeMemMatrix(m);
 }
 
 void test_isSymmetricMatrix_Symmetric() {
-    int a[] = {2, 1, 1, 2};
+    int a[] = {2, 1,
+               1, 2};
     matrix m = createMatrixFromArray(a, 2, 2);
     assert(isSymmetricMatrix(m));
     freeMemMatrix(m);
 }
 
 void test_isSymmetricMatrix_NotSymmetric() {
-    int a[] = {1, 2, 3, 4};
+    int a[] = {1, 2,
+               3, 4};
     matrix m = createMatrixFromArray(a, 2, 2);
     assert(!isSymmetricMatrix(m));
     freeMemMatrix(m);
 }
 
 void test_isSymmetricMatrix_NotSquareMatrix() {
-    int a[] = {1, 1, 1, 1, 1, 1};
+    int a[] = {1, 1, 1,
+               1, 1, 1};
     matrix m = createMatrixFromArray(a, 2, 3);
     assert(!isSymmetricMatrix(m));
     freeMemMatrix(m);
 }
 
 void test_transposeSquareMatrix() {
-    int a[] = {1, 2, 3, 4};
+    int a[] = {1, 2,
+               3, 4};
     matrix m1 = createMatrixFromArray(a, 2, 2);
     transposeSquareMatrix(m1);
-    int b[] = {1, 3, 2, 4};
+    int b[] = {1, 3,
+               2, 4};
     matrix m2 = createMatrixFromArray(b, 2, 2);
     assert(twoMatricesEqual(m1, m2));
     freeMemMatrix(m1);
@@ -249,7 +262,8 @@ void test_transposeSquareMatrix() {
 }
 
 void test_getMinValuePos() {
-    int a[] = {1, 4, 23, 4};
+    int a[] = {1, 4,
+               23, 4};
     matrix m = createMatrixFromArray(a, 2, 2);
     position p = getMinValuePos(m);
     assert(m.values[p.rowIndex][p.colIndex] == 1);
@@ -257,7 +271,8 @@ void test_getMinValuePos() {
 }
 
 void test_getMaxValuePos() {
-    int a[] = {1, 4, 23, 4};
+    int a[] = {1, 4,
+               23, 4};
     matrix m = createMatrixFromArray(a, 2, 2);
     position p = getMaxValuePos(m);
     assert(m.values[p.rowIndex][p.colIndex] == 23);
@@ -275,10 +290,14 @@ int getMax(int *a, int n) {
 }
 
 void test_insertionSortRowsMatrixByRowCriteria() {
-    int a[] = {3, 4, 5, 6, 1, 2};
+    int a[] = {3, 4,
+               5, 6,
+               1, 2};
     matrix m1 = createMatrixFromArray(a, 3, 2);
     insertionSortRowsMatrixByRowCriteria(m1, getMax);
-    int b[] = {1, 2, 3, 4, 5, 6};
+    int b[] = {1, 2,
+               3, 4,
+               5, 6};
     matrix m2 = createMatrixFromArray(b, 3, 2);
     assert(twoMatricesEqual(m1, m2));
     freeMemMatrix(m1);
@@ -554,6 +573,54 @@ void test_isMutuallyInverseMatrices_NotMutuallyInverse() {
     freeMemMatrix(m2);
 }
 
+// NUM 7
+/// возвращает максимальное значение из a и b
+int max(int a, int b) {
+    return a > b ? a : b;
+}
+
+void test_max() {
+    assert(max(1, 2) == 2);
+    assert(max(2222, -1000) == 2222);
+}
+
+/// возвращает сумму максимальных значений псевдодиагоналей матрицы m
+long long findSumOfMaxesOfPseudoDiagonal(matrix m) {
+    size_t n = m.nCols + m.nRows - 2;
+    int *arrayOFMaxes = (int *) malloc(sizeof(int) * n);
+
+    for (int i = 0; i < m.nRows - 1; i++)
+        arrayOFMaxes[i] = m.values[i + 1][0];
+
+    for (int i = 0; i < m.nCols - 1; i++)
+        arrayOFMaxes[i + m.nRows - 1] = m.values[0][i + 1];
+
+    for (int i = 1; i < m.nRows; i++)
+        for (int j = 1; j < m.nCols; j++) {
+            int dif = j - i;
+            if (dif > 0)
+                arrayOFMaxes[dif + m.nRows - 2] = max(arrayOFMaxes[dif + m.nRows - 2], m.values[i][j]);
+            else if (dif < 0)
+                arrayOFMaxes[-dif - 1] = max(arrayOFMaxes[-dif - 1], m.values[i][j]);
+        }
+
+    long long sum = 0;
+    for (int i = 0; i < n; i++)
+        sum += arrayOFMaxes[i];
+
+    return sum;
+}
+
+void test_findSumOfMaxesOfPseudoDiagonal() {
+    int a[] = {1, 3, 5, 7,
+               2, 5, 6, 7,
+               14, 2, 3, -1};
+    matrix m = createMatrixFromArray(a, 3, 4);
+    assert(findSumOfMaxesOfPseudoDiagonal(m) == 36);
+
+    freeMemMatrix(m);
+}
+
 int main() {
     testVector();
     testMatrix();
@@ -565,6 +632,8 @@ int main() {
     test_transposeIfMatrixHasEqualSumOfRows_Equal();
     test_isMutuallyInverseMatrices_MutuallyInverse();
     test_isMutuallyInverseMatrices_NotMutuallyInverse();
+    test_max();
+    test_findSumOfMaxesOfPseudoDiagonal();
 
     int nRows1, nCols1;
     scanf("%d %d", &nRows1, &nCols1);
@@ -572,13 +641,7 @@ int main() {
     matrix m1 = getMemMatrix(nRows1, nCols1);
     inputMatrix(m1);
 
-    int nRows2, nCols2;
-    scanf("%d %d", &nRows2, &nCols2);
-
-    matrix m2 = getMemMatrix(nRows2, nCols2);
-    inputMatrix(m2);
-
-    printf("%d", isMutuallyInverseMatrices(m1, m2));
+    printf("%lld", findSumOfMaxesOfPseudoDiagonal(m1));
 
     return 0;
 }
