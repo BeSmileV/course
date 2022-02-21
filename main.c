@@ -827,6 +827,64 @@ void test_countEqClassesByRowsSum() {
     freeMemMatrix(m1);
 }
 
+// NUM 11
+/// заполняет массив a суммой элементов столбов матрицы m
+void getSumOfColsElements(matrix m, long long *a) {
+    for (size_t j = 0; j < m.nCols; j++)
+        for (size_t i = 0; i < m.nRows; i++)
+            a[j] += m.values[i][j];
+}
+
+void test_getSumOfColsElements() {
+    long long *b = (long long *) calloc(4, sizeof(long long));
+    int a[] = {10, 7, 5, 6,
+               3, 11, 8, 9,
+               10, 1, 11, 12};
+    matrix m = createMatrixFromArray(a, 3, 4);
+    getSumOfColsElements(m, b);
+
+    assert(b[0] == 23 && b[1] == 19 && b[2] == 24 && b[3] == 27);
+
+    freeMemMatrix(m);
+    free(b);
+}
+
+/// возвращает количество "особых" элементов матрицы m, считая элемент "особым",
+/// если он больше суммы остальных элементов своего столбца
+int getNSpecialElement(matrix m) {
+    long long *a = (long long *) calloc(m.nCols, sizeof(long long));
+    getSumOfColsElements(m, a);
+
+    int count = 0;
+    for (size_t j = 0; j < m.nCols; j++)
+        for (size_t i = 0; i < m.nRows; i++)
+            if (m.values[i][j] * 2 > a[j]) {
+                count++;
+                break;
+            }
+
+    free(a);
+
+    return count;
+}
+
+void test_getNSpecialElement() {
+    int a[] = {2, 3, 9,
+               5, 4, 3,
+               2, 0, 0};
+    matrix m1 = createMatrixFromArray(a, 3, 3);
+
+    int b[] = {3, 3, 4,
+               5 ,6 ,7,
+               8, 9, 10};
+    matrix m2 = createMatrixFromArray(b, 3, 3);
+
+    assert(getNSpecialElement(m1) == 3 && getNSpecialElement(m2) == 0);
+
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
+}
+
 // NUM 12
 /// возвращает позицию самого левого минимального элемента
 position getLeftMin(matrix m) {
@@ -959,6 +1017,7 @@ void test_countNonDescendingRowsMatrices() {
     freeMemMatrices(ms, 3);
 }
 
+
 int main() {
     testVector();
     testMatrix();
@@ -989,6 +1048,8 @@ int main() {
     test_hasAllNonDescendingRows_Unsorted();
     test_hasAllNonDescendingRows_Sorted();
     test_countNonDescendingRowsMatrices();
+    test_getSumOfColsElements();
+    test_getNSpecialElement();
 
     int n, nRows1, nCols1;
     scanf("%d %d %d", &n, &nRows1, &nCols1);
