@@ -1280,6 +1280,90 @@ void test_task16() {
     test_getNSpecialElement2();
 }
 
+// NUM 17
+/// возвращает значение скалярного произведения векторов a и b
+/// в n-ом пространстве
+double getScalarProduct(int *a, int *b, int n) {
+    double sum = 0;
+    for (size_t i = 0; i < n; i++)
+        sum += a[i] * b[i];
+
+    return sum;
+}
+
+void test_getScalarProduct() {
+    int a[] = {1, 2, 3, 4};
+    int b[] = {2, 3, 3, 1};
+    assert(getScalarProduct(a, b, 4) == 21);
+}
+
+/// возвращает значение длины вектора a в n-ом пространстве
+double getVectorLength(int *a, int n) {
+    double sum = 0;
+    for (size_t i = 0; i < n; i++)
+        sum += a[i] * a[i];
+
+    return sqrt(sum);
+}
+
+void test_getVectorLength() {
+    int a[] = {1, 2, 3, 4};
+    int b[] = {2, 3, 3, 1};
+    assert(getVectorLength(a, 4) - sqrt(30) < DBL_EPSILON
+           && getVectorLength(b, 4) - sqrt(23) < DBL_EPSILON);
+}
+
+/// возвращает значение косинуса угла между векторами a и b в n-ом пространстве
+double getCosine(int *a, int *b, int n) {
+    return getScalarProduct(a, b, n) / (getVectorLength(a, n) * getVectorLength(b, n));
+}
+
+void test_getCosine() {
+    int a[] = {1, 2, 3, 4};
+    int b[] = {2, 3, 3, 1};
+    assert(getCosine(a, b, 4) - 21 / (sqrt(30) * sqrt(23)) < DBL_EPSILON);
+}
+
+int getVectorIndexWithMaxAngle(matrix m, int *b) {
+    int indexMax = 0;
+    double minCosine = getCosine(m.values[0], b, m.nCols);
+    for (int i = 1; i < m.nRows; i++) {
+        double cos = getCosine(m.values[i], b, m.nCols);
+        if (cos - minCosine < DBL_EPSILON) {
+            minCosine = cos;
+            indexMax = i;
+        }
+    }
+
+    return indexMax;
+}
+
+void test_getVectorIndexWithMaxAngle() {
+    int c[] = {1, 2, 3, 4, 5};
+    int a[] = {2, 3, 5, 5, 4,
+               6, 2, 3, 8, 12,
+               12, 12, 2, 1, 2};
+    matrix m1 = createMatrixFromArray(a, 3, 5);
+
+    int d[] = {1, 2, 3};
+    int b[] = {5, 5, 5,
+               1, 1, 1,
+               3, 22, 3};
+    matrix m2 = createMatrixFromArray(b, 3, 3);
+
+    assert(getVectorIndexWithMaxAngle(m1, c) == 2 && getVectorIndexWithMaxAngle(m2, d) == 2);
+
+    freeMemMatrix(m1);
+    freeMemMatrix(m2);
+}
+
+void test_task17() {
+    test_getScalarProduct();
+    test_getVectorLength();
+    test_getCosine();
+    test_getVectorIndexWithMaxAngle();
+}
+
 void test_tasks() {
     test_task2();
     test_task3();
@@ -1296,6 +1380,7 @@ void test_tasks() {
     test_task14();
     test_task15();
     test_task16();
+    test_task17();
 }
 
 int main() {
