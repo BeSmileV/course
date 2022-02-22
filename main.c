@@ -975,12 +975,12 @@ void test_getLeftMin() {
 
 /// заменяет предпоследнюю строку матрицы m первым из столбцов, в котором
 /// находится минимальный элемент матрицы
-void swapPenultimateRow(matrix m) {
+void swapPenultimateRow(matrix m, int n) {
     position min = getLeftMin(m);
     int *a = (int *) malloc(sizeof(int) * m.nRows);
-    for (size_t i = 0; i < m.nRows; i++)
+    for (size_t i = 0; i < n; i++)
         a[i] = m.values[i][min.colIndex];
-    for (size_t i = 0; i < m.nRows; i++)
+    for (size_t i = 0; i < n; i++)
         m.values[m.nRows - 2][i] = a[i];
 
     free(a);
@@ -991,7 +991,7 @@ void test_swapPenultimateRow() {
                3, 1, 3,
                4, 6, 9};
     matrix m1 = createMatrixFromArray(a, 3, 3);
-    swapPenultimateRow(m1);
+    swapPenultimateRow(m1, m1.nRows);
 
     int b[] = {2, 5, 7,
                5, 1, 6,
@@ -1362,6 +1362,53 @@ void test_task17() {
     test_getVectorLength();
     test_getCosine();
     test_getVectorIndexWithMaxAngle();
+}
+
+
+// NUM 18
+/// возвращает скалярное произведение строки i и столбца j матрицы m
+long long getScalarProductRowAndCol(matrix m, int i, int j){
+    long long mul = 0;
+    for (size_t k = 0; k < m.nRows; k++)
+        mul += m.values[i][k] * m.values[k][j];
+
+    return mul;
+}
+
+void test_getScalarProductRowAndCol() {
+    int a[] = {5, 2, 1,
+               3, 5, 6,
+               4, 3, 2};
+    matrix m1 = createMatrixFromArray(a, 3, 3);
+
+    assert(getScalarProductRowAndCol(m1, 1, 2) == 45 && getScalarProductRowAndCol(m1, 1, 0) == 54);
+
+    freeMemMatrix(m1);
+}
+
+/// возвращает скалярное произведение строки, в которой находится наибольший
+/// элемент матрицы, на столбец с наименьшим элементом
+long long getSpecialScalarProduct(matrix m){
+    position max = getMaxValuePos(m);
+    position min = getMinValuePos(m);
+
+    return getScalarProductRowAndCol(m, max.rowIndex, min.colIndex);
+}
+
+void test_getSpecialScalarProduct(){
+    int a[] = {5, 22, 1,
+               55, 3, 6,
+               4, 21, 2};
+    matrix m1 = createMatrixFromArray(a, 3, 3);
+
+    assert(getSpecialScalarProduct(m1) == 86);
+
+    freeMemMatrix(m1);
+}
+
+void test_task18(){
+    test_getScalarProductRowAndCol();
+    test_getSpecialScalarProduct();
 }
 
 void test_tasks() {
