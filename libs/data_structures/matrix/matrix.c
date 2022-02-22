@@ -208,3 +208,75 @@ matrix mulMatrices(matrix m1, matrix m2) {
 
     return mul;
 }
+
+matrixf getMemMatrixF(int nRows, int nCols) {
+    float **values = (float **) malloc(sizeof(float *) * nRows);
+    for (size_t i = 0; i < nRows; i++)
+        values[i] = (float *) malloc(sizeof(float) * nCols);
+    return (matrixf) {values, nRows, nCols};
+}
+
+matrixf *getMemArrayOfMatricesF(int nMatrices, int nRows, int nCols) {
+    matrixf *ms = (matrixf *) malloc(sizeof(matrixf) * nMatrices);
+    for (int i = 0; i < nMatrices; i++)
+        ms[i] = getMemMatrixF(nRows, nCols);
+    return ms;
+}
+
+void freeMemMatrixF(matrixf m) {
+    for (size_t i = 0; i < m.nRows; i++)
+        free(m.values[i]);
+    free(m.values);
+    m.nRows = 0;
+    m.nCols = 0;
+}
+
+void freeMemMatricesF(matrixf *ms, int nMatrices) {
+    for (size_t i = 0; i < nMatrices; i++)
+        freeMemMatrixF(ms[i]);
+}
+
+void inputMatrixF(matrixf m) {
+    for (size_t i = 0; i < m.nRows; i++)
+        for(size_t j = 0; j < m.nCols; j++)
+            scanf("%f", m.values[i][j]);
+}
+
+void inputMatricesF(matrixf *ms, int nMatrices) {
+    for (size_t i = 0; i < nMatrices; i++)
+        inputMatrixF(ms[i]);
+}
+
+void outputMatrixF(matrixf m) {
+    for (size_t i = 0; i < m.nRows; i++)
+        for (size_t i = 0; i < m.nRows; i++) {
+            for (size_t j = 0; j < m.nCols; j++)
+                printf("%f ", m.values[i][j]);
+            printf("\n");
+        }
+}
+
+void outputMatricesF(matrixf *ms, int nMatrices) {
+    for (size_t i = 0; i < nMatrices; i++)
+        outputMatrixF(ms[i]);
+}
+
+matrixf createMatrixFromArrayF(const float *a, int nRows, int nCols) {
+    matrixf m = getMemMatrixF(nRows, nCols);
+    int k = 0;
+    for (int i = 0; i < nRows; i++)
+        for (int j = 0; j < nCols; j++)
+            m.values[i][j] = a[k++];
+
+    return m;
+}
+
+matrixf *createArrayOfMatrixFromArrayF(const float *values, int nMatrices, int nRows, int nCols) {
+    matrixf *ms = getMemArrayOfMatricesF(nMatrices, nRows, nCols);
+    int l = 0;
+    for (int k = 0; k < nMatrices; k++)
+        for (int i = 0; i < nRows; i++)
+            for (int j = 0; j < nCols; j++)
+                ms[k].values[i][j] = values[l++];
+    return ms;
+}

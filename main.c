@@ -1163,12 +1163,12 @@ void test_task14() {
 
 // NUM 15
 /// возвращает максимальную абсолютную величину матрицы m
-int getMaxAbs(matrix m) {
-    int max = abs(m.values[0][0]);
+float getMaxAbs(matrixf m) {
+    float max = fabsf(m.values[0][0]);
     for (size_t i = 0; i < m.nRows; i++)
         for (size_t j = 0; j < m.nCols; j++) {
-            int a = abs(m.values[i][j]);
-            if (max < a)
+            float a = fabsf(m.values[i][j]);
+            if (max - a < FLT_EPSILON)
                 max = a;
         }
 
@@ -1176,36 +1176,36 @@ int getMaxAbs(matrix m) {
 }
 
 void test_getMaxAbs() {
-    int a[] = {1, 0, 0,
-               0, -100, 3,
-               4, 0, 9};
-    matrix m1 = createMatrixFromArray(a, 3, 3);
+    float a[] = {1.2f, 2.2f, 33.222f,
+                 12.2f, 22.2f, 33.2f,
+                 10.2f, 21.2f, 33.2221f};
+    matrixf m1 = createMatrixFromArrayF(a, 3, 3);
 
-    int b[] = {1, 1, 0,
-               22, 1, 3,
-               4, 0, 9};
-    matrix m2 = createMatrixFromArray(b, 3, 3);
+    float b[] = {-100.22f, -100.2221f, 21,
+                 21.22f, 76.4f, 45.3f,
+                 9.9f, 8.9f, 7.6f};
+    matrixf m2 = createMatrixFromArrayF(b, 3, 3);
 
-    assert(getMaxAbs(m1) == 100 && getMaxAbs(m2) == 22);
+    assert(fabsf(getMaxAbs(m1) - 33.2221f) < FLT_EPSILON && fabsf(getMaxAbs(m2) - 100.2221f) < FLT_EPSILON);
 
-    freeMemMatrix(m1);
-    freeMemMatrix(m2);
+    freeMemMatrixF(m1);
+    freeMemMatrixF(m2);
 }
 
 /// выводит матрицы массива матриц ms размера n с наименьшем значение abs
-void printMatrixWithMinAbsOfElement(matrix *ms, int n) {
-    int *a = (int *) malloc(sizeof(int) * n);
-    int min = getMaxAbs(ms[0]);
+void printMatrixWithMinAbsOfElement(matrixf *ms, int n) {
+    float *a = (float *) malloc(sizeof(float ) * n);
+    float min = getMaxAbs(ms[0]);
     a[0] = min;
     for (size_t i = 1; i < n; i++) {
         a[i] = getMaxAbs(ms[i]);
-        if (min > a[i])
+        if (min - a[i]> FLT_EPSILON)
             min = a[i];
     }
 
     for (size_t i = 0; i < n; i++)
-        if (a[i] == min)
-            outputMatrix(ms[i]);
+        if (fabsf(a[i] - min) < FLT_EPSILON)
+            outputMatrixF(ms[i]);
 
     free(a);
 }
@@ -1363,7 +1363,6 @@ void test_task17() {
     test_getCosine();
     test_getVectorIndexWithMaxAngle();
 }
-
 
 // NUM 18
 /// возвращает скалярное произведение строки i и столбца j матрицы m

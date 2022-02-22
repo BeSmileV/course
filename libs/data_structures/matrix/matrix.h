@@ -3,6 +3,7 @@
 
 #include <malloc.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 typedef struct matrix {
     int **values;   // элементы матрицы
@@ -14,6 +15,12 @@ typedef struct position {
     int rowIndex;
     int colIndex;
 } position;
+
+typedef struct matrixf {
+    float **values;     // элементы матрицы
+    int nRows;          // количество рядов
+    int nCols;          // количество столбцов
+} matrixf;
 
 /// выделяет память под матрицу размера nRows на nCols
 matrix getMemMatrix(int nRows, int nCols);
@@ -81,5 +88,34 @@ matrix mulMatrices(matrix m1, matrix m2);
 matrix createMatrixFromArray(const int *a, int nRows, int nCols);
 
 matrix *createArrayOfMatrixFromArray(const int *values, int nMatrices, int nRows, int nCols);
+
+/// выделяет память под матрицу размера nRows на nCols
+matrixf getMemMatrixF(int nRows, int nCols);
+
+/// размещает в динамической памяти массив из nMatrices матриц
+/// размером nRows на nCols
+matrixf *getMemArrayOfMatricesF(int nMatrices, int nRows, int nCols);
+
+/// освобождает память выделенную под матрицу m
+void freeMemMatrixF(matrixf m);
+
+/// освобождает память выделенную под массив матриц ms размера nMatrices
+void freeMemMatricesF(matrixf *ms, int nMatrices);
+
+/// вводит матрицу m
+void inputMatrixF(matrixf m);
+
+/// вводит массив матриц s размера nMatrices
+void inputMatricesF(matrixf *ms, int nMatrices);
+
+/// выводит матрицу m
+void outputMatrixF(matrixf m);
+
+/// выводит массив матриц s размера nMatrices
+void outputMatricesF(matrixf *ms, int nMatrices);
+
+matrixf createMatrixFromArrayF(const float *a, int nRows, int nCols);
+
+matrixf *createArrayOfMatrixFromArrayF(const float *values, int nMatrices, int nRows, int nCols);
 
 #endif
