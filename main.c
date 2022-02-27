@@ -9,6 +9,7 @@
 #include "libs/data_structures/vector/vector.h"
 #include "libs/data_structures/vectorVoid/vectorVoid.h"
 #include "libs/data_structures/matrix/matrix.h"
+#include "libs/algorithms/string/string_.h"
 
 
 void test_isEmpty_emptyVector() {
@@ -1194,12 +1195,12 @@ void test_getMaxAbs() {
 
 /// выводит матрицы массива матриц ms размера n с наименьшем значение abs
 void printMatrixWithMinAbsOfElement(matrixf *ms, int n) {
-    float *a = (float *) malloc(sizeof(float ) * n);
+    float *a = (float *) malloc(sizeof(float) * n);
     float min = getMaxAbs(ms[0]);
     a[0] = min;
     for (size_t i = 1; i < n; i++) {
         a[i] = getMaxAbs(ms[i]);
-        if (min - a[i]> FLT_EPSILON)
+        if (min - a[i] > FLT_EPSILON)
             min = a[i];
     }
 
@@ -1366,7 +1367,7 @@ void test_task17() {
 
 // NUM 18
 /// возвращает скалярное произведение строки i и столбца j матрицы m
-long long getScalarProductRowAndCol(matrix m, int i, int j){
+long long getScalarProductRowAndCol(matrix m, int i, int j) {
     long long mul = 0;
     for (size_t k = 0; k < m.nRows; k++)
         mul += m.values[i][k] * m.values[k][j];
@@ -1387,14 +1388,14 @@ void test_getScalarProductRowAndCol() {
 
 /// возвращает скалярное произведение строки, в которой находится наибольший
 /// элемент матрицы, на столбец с наименьшим элементом
-long long getSpecialScalarProduct(matrix m){
+long long getSpecialScalarProduct(matrix m) {
     position max = getMaxValuePos(m);
     position min = getMinValuePos(m);
 
     return getScalarProductRowAndCol(m, max.rowIndex, min.colIndex);
 }
 
-void test_getSpecialScalarProduct(){
+void test_getSpecialScalarProduct() {
     int a[] = {5, 22, 1,
                55, 3, 6,
                4, 21, 2};
@@ -1405,7 +1406,7 @@ void test_getSpecialScalarProduct(){
     freeMemMatrix(m1);
 }
 
-void test_task18(){
+void test_task18() {
     test_getScalarProductRowAndCol();
     test_getSpecialScalarProduct();
 }
@@ -1429,18 +1430,53 @@ void test_tasks() {
     test_task17();
 }
 
+// string
+
+void test_strlen_() {
+    char s1[] = "String";
+    char s2[] = "";
+    assert(strlen_(s1) == 6 && strlen_(s2) == 0);
+}
+
+void test_findNonSpace() {
+    char s1[] = " 123";
+    char s2[] = " ";
+    assert(findNonSpace(s1) == s1 + 1 && findNonSpace(s2) == s2 + 1);
+}
+
+void test_findSpace() {
+    char s1[] = "1 23";
+    char s2[] = "123";
+    assert(findSpace(s1) == s1 + 1 && findSpace(s2) == s2 + 3);
+}
+
+void test_findNonSpaceReverse() {
+    char s1[] = "1\n3\n\n";
+    char s2[] = "\n\n\n\n";
+
+    assert(findNonSpaceReverse(s1 + 4, s1) == s1 + 2 && findNonSpaceReverse(s2 + 3, s2) == s2);
+}
+
+void test_findSpaceReverse() {
+    char s1[] = "1\n3\n\n4\n5";
+    char s2[] = "1234";
+
+    assert(findSpaceReverse(s1 + 7, s1) == s1 + 6 && findSpaceReverse(s2 + 3, s2) == s2);
+}
+
+void testString_() {
+    test_strlen_();
+    test_findNonSpace();
+    test_findSpace();
+    test_findNonSpaceReverse();
+    test_findSpaceReverse();
+}
+
 int main() {
     testVector();
     testMatrix();
     test_tasks();
-
-    int nRows1, nCols1;
-    scanf("%d %d", &nRows1, &nCols1);
-
-    matrix m = getMemMatrix(nRows1, nCols1);
-    inputMatrix(m);
-
-    printf("%d", getNSpecialElement2(m));
+    testString_();
 
     return 0;
 }
