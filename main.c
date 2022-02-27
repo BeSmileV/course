@@ -1454,14 +1454,21 @@ void test_findNonSpaceReverse() {
     char s1[] = "1\n3\n\n";
     char s2[] = "\n\n\n\n";
 
-    assert(findNonSpaceReverse(s1 + 4, s1) == s1 + 2 && findNonSpaceReverse(s2 + 3, s2) == s2);
+    assert(findNonSpaceReverse(s1 + 4, s1 - 1) == s1 + 2 && findNonSpaceReverse(s2 + 3, s2 - 1) == s2 - 1);
 }
 
 void test_findSpaceReverse() {
     char s1[] = "1\n3\n\n4\n5";
     char s2[] = "1234";
 
-    assert(findSpaceReverse(s1 + 7, s1) == s1 + 6 && findSpaceReverse(s2 + 3, s2) == s2);
+    assert(findSpaceReverse(s1 + 7, s1 - 1) == s1 + 6 && findSpaceReverse(s2 + 3, s2 - 1) == s2 - 1);
+}
+
+void test_strcmp_(){
+    char *s1 = "ABC";
+    char *s2 = "AAC";
+
+    assert(strcmp_(s1, s2) > 0 && strcmp_(s1, s1) == 0 && strcmp_(s2, s1) < 0);
 }
 
 void testString_() {
@@ -1477,6 +1484,7 @@ int main() {
     testMatrix();
     test_tasks();
     testString_();
+    test_strcmp_();
 
     return 0;
 }
