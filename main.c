@@ -1471,12 +1471,46 @@ void test_strcmp_(){
     assert(strcmp_(s1, s2) > 0 && strcmp_(s1, s1) == 0 && strcmp_(s2, s1) < 0);
 }
 
+void test_copy(){
+    char *s1 = "World";
+    char s2[10] = {0};
+    char *end = copy(s1, s1 + 5, s2 + 3);
+
+    assert(!strcmp_(s1, s2 + 3));
+}
+
+int isEven(int a){
+    return a % 2 == 0;
+}
+
+void test_copyIf(){
+    char *s1 = "123456";
+    char s2[10] = {0};
+    char *end = copyIf(s1, s1 + 5, s2 + 3, isEven);
+    char *res = "24";
+
+    assert(!strcmp_(res, s2 + 3));
+}
+
+void test_copyIfReverse(){
+    char *s1 = "223456";
+    char s2[10] = {0};
+    char *end = copyIfReverse(s1 + 5, s1, s2, isEven);
+    char *res = "642";
+
+    assert(!strcmp_(res, s2));
+}
+
+
 void testString_() {
     test_strlen_();
     test_findNonSpace();
     test_findSpace();
     test_findNonSpaceReverse();
     test_findSpaceReverse();
+    test_copy();
+    test_copyIf();
+    test_copyIfReverse();
 }
 
 int main() {
@@ -1485,6 +1519,7 @@ int main() {
     test_tasks();
     testString_();
     test_strcmp_();
+
 
     return 0;
 }

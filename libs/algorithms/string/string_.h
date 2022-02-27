@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <memory.h>
 
 /// возвращает значение длины строки s
 size_t strlen_(const char *s);
@@ -34,5 +35,13 @@ char *findSpaceReverse(char *rbegin, const char *rend);
 /// в лексикографическом порядке, значение 0, если lhs и rhs
 /// равны, иначе – положительное значение.
 int strcmp_(const char *lhs, const char *rhs);
+
+/// Возвращает указатель на следующий свободный фрагмент памяти в destination,
+/// записывая по адресу beginDestination фрагмент памяти, начиная с адреса beginSource до endSource
+char *copy(const char *beginSource, const char *endSource, char *beginDestination);
+
+char* copyIf(char *beginSource, const char *endSource, char *beginDestination, int (*f)(int));
+
+char* copyIfReverse(char *rbeginSource, const char *rendSource, char *beginDestination, int (*f)(int));
 
 #endif
