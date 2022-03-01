@@ -11,6 +11,7 @@
 #include "libs/string/tasks/removeNonLetters.h"
 #include "libs/string/tasks/removeAdjacentEqualLetters.h"
 #include "libs/string/tasks/removeExtraSpaces.h"
+#include "libs/string/tasks/digitToEnd.h"
 
 void assertString(const char *expected, char *got,
                   char const *fileName, char const *funcName,
@@ -1444,8 +1445,8 @@ void assertString(const char *expected, char *got,
     if (strcmp_(expected, got)) {
         fprintf(stderr, " File %s\n", fileName);
         fprintf(stderr, "%s - failed on line %d\n", funcName, line);
-        fprintf(stderr, " Expected : \"%s \"\n", expected);
-        fprintf(stderr, " Got : \"%s \"\n\n", got);
+        fprintf(stderr, " Expected : \"%s\"\n", expected);
+        fprintf(stderr, " Got : \"%s\"\n\n", got);
     } else
         fprintf(stderr, "%s - OK\n", funcName);
 }
@@ -1534,31 +1535,87 @@ void testString_() {
 
 // TASKS
 
-void test_removeNonLetters() {
+void test_removeNonLetters_NotEmpty() {
     char s[] = "H e l lo";
     removeNonLetters(s);
 
     ASSERT_STRING("Hello", s);
 }
 
-void test_removeAdjacentEqualLetters(){
+void test_removeNonLetters_Empty() {
+    char s[] = "";
+    removeNonLetters(s);
+
+    ASSERT_STRING("", s);
+}
+
+void test_removeNonLetters(){
+    test_removeNonLetters_NotEmpty();
+    test_removeNonLetters_Empty();
+}
+
+void test_removeAdjacentEqualLetters_NotEmpty(){
     char s[] = "AASSDD";
     removeAdjacentEqualLetters(s);
 
     ASSERT_STRING("ASD", s);
 }
 
-void test_removeExtraSpaces(){
+void test_removeAdjacentEqualLetters_Empty(){
+    char s[] = "";
+    removeAdjacentEqualLetters(s);
+
+    ASSERT_STRING("", s);
+}
+
+void test_removeAdjacentEqualLetters(){
+    test_removeAdjacentEqualLetters_Empty();
+    test_removeAdjacentEqualLetters_NotEmpty();
+}
+
+void test_removeExtraSpaces_Empty(){
+    char s[] = "";
+    removeExtraSpaces(s);
+
+    ASSERT_STRING("", s);
+}
+
+void test_removeExtraSpaces_NotEmpty(){
     char s[] = "I  like   5e";
     removeExtraSpaces(s);
 
     ASSERT_STRING("I like 5e", s);
 }
 
+void test_removeExtraSpaces(){
+    test_removeExtraSpaces_Empty();
+    test_removeExtraSpaces_NotEmpty();
+}
+
+void test_digitToEnd_Empty(){
+    char s[] = "";
+    digitToEnd(s);
+
+    ASSERT_STRING("", s);
+}
+
+void test_digitToEnd_NotEmpty(){
+    char s[] = "1sda2  3aaa3";
+    digitToEnd(s);
+
+    ASSERT_STRING("sda12  aaa33", s);
+}
+
+void test_digitToEnd(){
+    test_digitToEnd_Empty();
+    test_digitToEnd_NotEmpty();
+}
+
 void test_tasks_String_() {
     test_removeNonLetters();
     test_removeAdjacentEqualLetters();
     test_removeExtraSpaces();
+    test_digitToEnd();
 }
 
 int main() {

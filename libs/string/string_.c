@@ -80,3 +80,23 @@ char *copyIfReverse(char *rbeginSource, const char *rendSource, char *beginDesti
 
     return beginDestination;
 }
+
+int getWord(char *beginSearch, WordDescriptor *word) {
+    word->begin = findNonSpace(beginSearch);
+    if (*word->begin == '\0')
+        return 0;
+
+    word->end = findSpace(word->begin);
+
+    return 1;
+}
+
+bool getWordReverse(char *rbegin, char *rend, WordDescriptor *word){
+    word->end = findNonSpaceReverse(rbegin, rend);
+    if (*word->end == '\0')
+        return 0;
+
+    word->begin = findSpaceReverse(word->end, rend);
+
+    return 1;
+}

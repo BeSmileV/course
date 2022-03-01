@@ -5,6 +5,19 @@
 #include <ctype.h>
 #include <memory.h>
 #include <malloc.h>
+#include <strings.h>
+#include <stdbool.h>
+
+#define MAX_STRING_SIZE 1000
+
+char _stringBuffer[MAX_STRING_SIZE + 1];
+
+typedef struct WordDescriptor {
+    char *begin;    // позиция начала слова
+    char *end;      // позиция первого символа, после последнего символа слова
+} WordDescriptor;
+
+int getWord ( char * beginSearch , WordDescriptor * word );
 
 /// возвращает значение длины строки s
 size_t strlen_(const char *s);
@@ -41,8 +54,10 @@ int strcmp_(const char *lhs, const char *rhs);
 /// записывая по адресу beginDestination фрагмент памяти, начиная с адреса beginSource до endSource
 char *copy(const char *beginSource, const char *endSource, char *beginDestination);
 
-char* copyIf(char *beginSource, const char *endSource, char *beginDestination, int (*f)(int));
+char *copyIf(char *beginSource, const char *endSource, char *beginDestination, int (*f)(int));
 
-char* copyIfReverse(char *rbeginSource, const char *rendSource, char *beginDestination, int (*f)(int));
+char *copyIfReverse(char *rbeginSource, const char *rendSource, char *beginDestination, int (*f)(int));
+
+bool getWordReverse(char *rbegin, char *rend, WordDescriptor *word);
 
 #endif
