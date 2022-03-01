@@ -8,7 +8,9 @@
 #include <strings.h>
 #include <stdbool.h>
 
-#define MAX_STRING_SIZE 1000
+#define MAX_STRING_SIZE 100
+#define MAX_N_WORDS_IN_STRING 100
+#define MAX_WORD_SIZE 20
 
 char _stringBuffer[MAX_STRING_SIZE + 1];
 
@@ -17,7 +19,7 @@ typedef struct WordDescriptor {
     char *end;      // позиция первого символа, после последнего символа слова
 } WordDescriptor;
 
-int getWord ( char * beginSearch , WordDescriptor * word );
+int getWord(char *beginSearch, WordDescriptor *word);
 
 /// возвращает значение длины строки s
 size_t strlen_(const char *s);

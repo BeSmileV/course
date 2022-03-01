@@ -12,6 +12,7 @@
 #include "libs/string/tasks/removeAdjacentEqualLetters.h"
 #include "libs/string/tasks/removeExtraSpaces.h"
 #include "libs/string/tasks/digitToEnd.h"
+#include "libs/string/tasks/getSpaceForDigits.h"
 
 void assertString(const char *expected, char *got,
                   char const *fileName, char const *funcName,
@@ -1611,11 +1612,28 @@ void test_digitToEnd(){
     test_digitToEnd_NotEmpty();
 }
 
+void test_getSpaceForDigits_Empty(){
+
+}
+
+void test_getSpaceForDigits_NotEmpty(){
+    char s[] = "I1come1at3am";
+    getSpaceForDigits(s);
+
+    ASSERT_STRING("I come at   am", s);
+}
+
+void test_getSpaceForDigits(){
+    test_getSpaceForDigits_NotEmpty();
+    test_getSpaceForDigits_Empty();
+}
+
 void test_tasks_String_() {
     test_removeNonLetters();
     test_removeAdjacentEqualLetters();
     test_removeExtraSpaces();
     test_digitToEnd();
+    test_getSpaceForDigits();
 }
 
 int main() {
