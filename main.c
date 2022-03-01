@@ -13,6 +13,7 @@
 #include "libs/string/tasks/removeExtraSpaces.h"
 #include "libs/string/tasks/digitToEnd.h"
 #include "libs/string/tasks/getSpaceForDigits.h"
+#include "libs/string/tasks/replace.h"
 
 void assertString(const char *expected, char *got,
                   char const *fileName, char const *funcName,
@@ -1613,7 +1614,10 @@ void test_digitToEnd(){
 }
 
 void test_getSpaceForDigits_Empty(){
+    char s[] = "";
+    getSpaceForDigits(s);
 
+    ASSERT_STRING("", s);
 }
 
 void test_getSpaceForDigits_NotEmpty(){
@@ -1628,12 +1632,32 @@ void test_getSpaceForDigits(){
     test_getSpaceForDigits_Empty();
 }
 
+void test_replace_Empty(){
+    char s[] = "";
+    replace(s, "I", "You");
+
+    ASSERT_STRING("", s);
+}
+
+void test_replace_NotEmpty(){
+    char s[] = "I come, You and I";
+    replace(s, "I", "You");
+
+    ASSERT_STRING("You come, You and You", s);
+}
+
+void test_replace(){
+    test_replace_Empty();
+    test_replace_NotEmpty();
+}
+
 void test_tasks_String_() {
     test_removeNonLetters();
     test_removeAdjacentEqualLetters();
     test_removeExtraSpaces();
     test_digitToEnd();
     test_getSpaceForDigits();
+    test_replace();
 }
 
 int main() {

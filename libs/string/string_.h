@@ -62,4 +62,7 @@ char *copyIfReverse(char *rbeginSource, const char *rendSource, char *beginDesti
 
 bool getWordReverse(char *rbegin, char *rend, WordDescriptor *word);
 
+/// возвращает указатель на конец строки s
+char *getEndOfString(char *s);
+
 #endif

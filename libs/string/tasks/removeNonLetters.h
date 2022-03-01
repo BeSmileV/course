@@ -3,10 +3,7 @@
 
 #include "../string_.h"
 
-/// возвращает указатель на конец строки s
-char *getEndOfString(char *s) {
-    return s + strlen_(s);
-}
+
 
 /// удалить из строки s все пробельные символы
 void removeNonLetters(char *s) {
