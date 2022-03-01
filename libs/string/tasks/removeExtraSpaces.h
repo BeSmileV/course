@@ -1,11 +1,11 @@
-#ifndef COURSE__REMOVEADJACENTEQUALLETTERS_H
-#define COURSE__REMOVEADJACENTEQUALLETTERS_H
+#ifndef COURSE__REMOVEEXTRASPACES_H
+#define COURSE__REMOVEEXTRASPACES_H
 
-void removeAdjacentEqualLetters(char *s){
+void removeExtraSpaces(char *s){
     size_t indexRead = 0;
     size_t indexWrite = 0;
     while(s[indexRead] != '\0') {
-        if (s[indexRead] != s[indexRead + 1])
+        if (s[indexRead] != ' ' || s[indexRead] != s[indexRead + 1])
             s[(indexWrite++)] = s[indexRead];
         indexRead++;
     }

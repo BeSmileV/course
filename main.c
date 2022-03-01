@@ -9,6 +9,8 @@
 #include "libs/data_structures/matrix/matrix.h"
 #include "libs/string/string_.h"
 #include "libs/string/tasks/removeNonLetters.h"
+#include "libs/string/tasks/removeAdjacentEqualLetters.h"
+#include "libs/string/tasks/removeExtraSpaces.h"
 
 void assertString(const char *expected, char *got,
                   char const *fileName, char const *funcName,
@@ -1539,10 +1541,24 @@ void test_removeNonLetters() {
     ASSERT_STRING("Hello", s);
 }
 
+void test_removeAdjacentEqualLetters(){
+    char s[] = "AASSDD";
+    removeAdjacentEqualLetters(s);
 
+    ASSERT_STRING("ASD", s);
+}
+
+void test_removeExtraSpaces(){
+    char s[] = "I  like   5e";
+    removeExtraSpaces(s);
+
+    ASSERT_STRING("I like 5e", s);
+}
 
 void test_tasks_String_() {
     test_removeNonLetters();
+    test_removeAdjacentEqualLetters();
+    test_removeExtraSpaces();
 }
 
 int main() {

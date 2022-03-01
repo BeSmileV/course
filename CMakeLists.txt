@@ -9,7 +9,7 @@ add_executable(course_ main.c)
 add_subdirectory(libs)
 add_library(str libs/string/string_.h libs/string/string_.c
         libs/string/tasks/removeNonLetters.h
-        libs/string/tasks/removeAdjacentEqualLetters.h)
+        libs/string/tasks/removeAdjacentEqualLetters.h libs/string/tasks/removeExtraSpaces.h)
 
 target_link_libraries(course_ str)
 target_link_libraries(course_ data_structures)
