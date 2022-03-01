@@ -5,12 +5,16 @@
 #include <math.h>
 #include <float.h>
 
-#include "libs/algorithms/array/array.h"
 #include "libs/data_structures/vector/vector.h"
-#include "libs/data_structures/vectorVoid/vectorVoid.h"
 #include "libs/data_structures/matrix/matrix.h"
-#include "libs/algorithms/string/string_.h"
+#include "libs/string/string_.h"
+#include "libs/string/tasks/removeNonLetters.h"
 
+void assertString(const char *expected, char *got,
+                  char const *fileName, char const *funcName,
+                  int line);
+
+#define ASSERT_STRING(expected, got) assertString(expected, got, __FILE__, __FUNCTION__, __LINE__)
 
 void test_isEmpty_emptyVector() {
     vector v = createVector(2);
@@ -1411,7 +1415,7 @@ void test_task18() {
     test_getSpecialScalarProduct();
 }
 
-void test_tasks() {
+void test_tasks_Matrix() {
     test_task2();
     test_task3();
     test_task4();
@@ -1431,6 +1435,18 @@ void test_tasks() {
 }
 
 // string
+
+void assertString(const char *expected, char *got,
+                  char const *fileName, char const *funcName,
+                  int line) {
+    if (strcmp_(expected, got)) {
+        fprintf(stderr, " File %s\n", fileName);
+        fprintf(stderr, "%s - failed on line %d\n", funcName, line);
+        fprintf(stderr, " Expected : \"%s \"\n", expected);
+        fprintf(stderr, " Got : \"%s \"\n\n", got);
+    } else
+        fprintf(stderr, "%s - OK\n", funcName);
+}
 
 void test_strlen_() {
     char s1[] = "String";
@@ -1464,43 +1480,43 @@ void test_findSpaceReverse() {
     assert(findSpaceReverse(s1 + 7, s1 - 1) == s1 + 6 && findSpaceReverse(s2 + 3, s2 - 1) == s2 - 1);
 }
 
-void test_strcmp_(){
-    char *s1 = "ABC";
-    char *s2 = "AAC";
+void test_strcmp_() {
+    char s1[] = "ABC";
+    char s2[] = "AAC";
 
     assert(strcmp_(s1, s2) > 0 && strcmp_(s1, s1) == 0 && strcmp_(s2, s1) < 0);
 }
 
-void test_copy(){
-    char *s1 = "World";
-    char s2[10] = {0};
+void test_copy() {
+    char s1[] = "World";
+    char s2[10];
     char *end = copy(s1, s1 + 5, s2 + 3);
+    *end = '\0';
 
-    assert(!strcmp_(s1, s2 + 3));
+    ASSERT_STRING(s1, s2 + 3);
 }
 
-int isEven(int a){
+int isEven(int a) {
     return a % 2 == 0;
 }
 
-void test_copyIf(){
-    char *s1 = "123456";
-    char s2[10] = {0};
+void test_copyIf() {
+    char s1[] = "123456";
+    char s2[10];
     char *end = copyIf(s1, s1 + 5, s2 + 3, isEven);
-    char *res = "24";
+    *end = '\0';
 
-    assert(!strcmp_(res, s2 + 3));
+    ASSERT_STRING("24", s2 + 3);
 }
 
-void test_copyIfReverse(){
-    char *s1 = "223456";
+void test_copyIfReverse() {
+    char s1[] = "223456";
     char s2[10] = {0};
     char *end = copyIfReverse(s1 + 5, s1, s2, isEven);
-    char *res = "642";
+    *end = '\0';
 
-    assert(!strcmp_(res, s2));
+    ASSERT_STRING("642", s2);
 }
-
 
 void testString_() {
     test_strlen_();
@@ -1508,18 +1524,33 @@ void testString_() {
     test_findSpace();
     test_findNonSpaceReverse();
     test_findSpaceReverse();
+    test_strcmp_();
     test_copy();
     test_copyIf();
     test_copyIfReverse();
 }
 
+// TASKS
+
+void test_removeNonLetters() {
+    char s[] = "H e l lo";
+    removeNonLetters(s);
+
+    ASSERT_STRING("Hello", s);
+}
+
+
+
+void test_tasks_String_() {
+    test_removeNonLetters();
+}
+
 int main() {
     testVector();
     testMatrix();
-    test_tasks();
+    test_tasks_Matrix();
     testString_();
-    test_strcmp_();
-
+    test_tasks_String_();
 
     return 0;
 }

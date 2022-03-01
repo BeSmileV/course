@@ -1,7 +1,7 @@
 #include "string_.h"
 
 size_t strlen_(const char *s) {
-    char *a = (char *) s;
+    char *a = s;
     while (*a != '\0')
         a++;
 
@@ -53,23 +53,26 @@ int strcmp_(const char *lhs, const char *rhs) {
 }
 
 char *copy(const char *beginSource, const char *endSource, char *beginDestination) {
-    memcpy(beginDestination, beginSource, endSource - beginSource);
+    size_t n = endSource - beginSource;
+    memcpy(beginDestination, beginSource, n);
 
-    return beginDestination + (char) (endSource - beginSource);
+    return beginDestination + n;
 }
 
-char* copyIf(char *beginSource, const char *endSource, char *beginDestination, int (*f)(int)){
-    while(beginSource != endSource) {
-        if (f(*beginSource))
-            *(beginDestination++) = *beginSource;
+char *copyIf(char *beginSource, const char *endSource, char *beginDestination, int (*f)(int)) {
+    while (beginSource != endSource) {
+        if (f(*beginSource)) {
+            *beginDestination = *beginSource;
+            beginDestination++;
+        }
         beginSource++;
     }
 
     return beginDestination;
 }
 
-char* copyIfReverse(char *rbeginSource, const char *rendSource, char *beginDestination, int (*f)(int)){
-    while(rbeginSource != rendSource) {
+char *copyIfReverse(char *rbeginSource, const char *rendSource, char *beginDestination, int (*f)(int)) {
+    while (rbeginSource != rendSource) {
         if (f(*rbeginSource))
             *(beginDestination++) = *rbeginSource;
         rbeginSource--;

@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <memory.h>
+#include <malloc.h>
 
 /// возвращает значение длины строки s
 size_t strlen_(const char *s);
