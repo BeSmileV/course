@@ -8,6 +8,7 @@
 #include "../string/tasks/removeExtraSpaces.h"
 #include "../string/tasks/digitToEnd.h"
 #include "../string/tasks/getSpaceForDigits.h"
+#include "../string/tasks/isSortedWords.h"
 
 void assertString(const char *expected, char *got,
                   char const *fileName, char const *funcName,
@@ -77,7 +78,7 @@ void test_copy() {
 
 int isEven(int a) {
     return a % 2 == 0;
-}/
+}
 
 void test_copyIf() {
     char s1[] = "123456";
@@ -112,7 +113,7 @@ void testString_() {
 // TASKS
 
 void test_removeNonLetters_NotEmpty() {
-    char s[] = "H e l lo";
+    char s[] = "H e l  lo";
     removeNonLetters(s);
 
     ASSERT_STRING("Hello", s);
@@ -157,7 +158,7 @@ void test_removeExtraSpaces_Empty(){
 }
 
 void test_removeExtraSpaces_NotEmpty(){
-    char s[] = "I  like   5e";
+    char s[] = "I like   5e";
     removeExtraSpaces(s);
 
     ASSERT_STRING("I like 5e", s);
@@ -195,10 +196,10 @@ void test_getSpaceForDigits_Empty(){
 }
 
 void test_getSpaceForDigits_NotEmpty(){
-    char s[] = "I1come1at3am";
+    char s[] = "I1come0at3am";
     getSpaceForDigits(s);
 
-    ASSERT_STRING("I come at   am", s);
+    ASSERT_STRING("I comeat   am", s);
 }
 
 void test_getSpaceForDigits(){
@@ -225,6 +226,29 @@ void test_replace(){
     test_replace_NotEmpty();
 }
 
+void test_isSortedWords_Empty(){
+    char s[] = "";
+
+    assert(isSortedWords(s));
+    ASSERT_STRING("OK", "OK");
+}
+
+void test_isSortedWords_NotEmpty(){
+    char s1[] = "AAAA AAB  AAC";
+    char s2[] = "AAA AA AAAA CA";
+    char s3[] = "Asd";
+
+    assert(isSortedWords(s1) && !isSortedWords(s2) && isSortedWords(s3));
+    ASSERT_STRING("OK", "OK");
+}
+
+
+void test_isSortedWords(){
+    test_isSortedWords_NotEmpty();
+    test_isSortedWords_Empty();
+}
+
+
 void test_tasks_String_() {
     test_removeNonLetters();
     test_removeAdjacentEqualLetters();
@@ -232,6 +256,7 @@ void test_tasks_String_() {
     test_digitToEnd();
     test_getSpaceForDigits();
     test_replace();
+    test_isSortedWords();
 }
 
 #endif
