@@ -9,6 +9,7 @@
 #include "../string/tasks/digitToEnd.h"
 #include "../string/tasks/getSpaceForDigits.h"
 #include "../string/tasks/isSortedWords.h"
+#include "../string/tasks/getCountOfPalindromes.h"
 
 void assertString(const char *expected, char *got,
                   char const *fileName, char const *funcName,
@@ -126,114 +127,114 @@ void test_removeNonLetters_Empty() {
     ASSERT_STRING("", s);
 }
 
-void test_removeNonLetters(){
+void test_removeNonLetters() {
     test_removeNonLetters_NotEmpty();
     test_removeNonLetters_Empty();
 }
 
-void test_removeAdjacentEqualLetters_NotEmpty(){
+void test_removeAdjacentEqualLetters_NotEmpty() {
     char s[] = "AASSDD";
     removeAdjacentEqualLetters(s);
 
     ASSERT_STRING("ASD", s);
 }
 
-void test_removeAdjacentEqualLetters_Empty(){
+void test_removeAdjacentEqualLetters_Empty() {
     char s[] = "";
     removeAdjacentEqualLetters(s);
 
     ASSERT_STRING("", s);
 }
 
-void test_removeAdjacentEqualLetters(){
+void test_removeAdjacentEqualLetters() {
     test_removeAdjacentEqualLetters_Empty();
     test_removeAdjacentEqualLetters_NotEmpty();
 }
 
-void test_removeExtraSpaces_Empty(){
+void test_removeExtraSpaces_Empty() {
     char s[] = "";
     removeExtraSpaces(s);
 
     ASSERT_STRING("", s);
 }
 
-void test_removeExtraSpaces_NotEmpty(){
+void test_removeExtraSpaces_NotEmpty() {
     char s[] = "I like   5e";
     removeExtraSpaces(s);
 
     ASSERT_STRING("I like 5e", s);
 }
 
-void test_removeExtraSpaces(){
+void test_removeExtraSpaces() {
     test_removeExtraSpaces_Empty();
     test_removeExtraSpaces_NotEmpty();
 }
 
-void test_digitToEnd_Empty(){
+void test_digitToEnd_Empty() {
     char s[] = "";
     digitToEnd(s);
 
     ASSERT_STRING("", s);
 }
 
-void test_digitToEnd_NotEmpty(){
+void test_digitToEnd_NotEmpty() {
     char s[] = "1sda2  3aaa3";
     digitToEnd(s);
 
     ASSERT_STRING("sda12  aaa33", s);
 }
 
-void test_digitToEnd(){
+void test_digitToEnd() {
     test_digitToEnd_Empty();
     test_digitToEnd_NotEmpty();
 }
 
-void test_getSpaceForDigits_Empty(){
+void test_getSpaceForDigits_Empty() {
     char s[] = "";
     getSpaceForDigits(s);
 
     ASSERT_STRING("", s);
 }
 
-void test_getSpaceForDigits_NotEmpty(){
+void test_getSpaceForDigits_NotEmpty() {
     char s[] = "I1come0at3am";
     getSpaceForDigits(s);
 
     ASSERT_STRING("I comeat   am", s);
 }
 
-void test_getSpaceForDigits(){
+void test_getSpaceForDigits() {
     test_getSpaceForDigits_NotEmpty();
     test_getSpaceForDigits_Empty();
 }
 
-void test_replace_Empty(){
+void test_replace_Empty() {
     char s[] = "";
     replace(s, "I", "You");
 
     ASSERT_STRING("", s);
 }
 
-void test_replace_NotEmpty(){
+void test_replace_NotEmpty() {
     char s[] = "I come, You and I";
     replace(s, "I", "You");
 
     ASSERT_STRING("You come, You and You", s);
 }
 
-void test_replace(){
+void test_replace() {
     test_replace_Empty();
     test_replace_NotEmpty();
 }
 
-void test_isSortedWords_Empty(){
+void test_isSortedWords_Empty() {
     char s[] = "";
 
     assert(isSortedWords(s));
     ASSERT_STRING("OK", "OK");
 }
 
-void test_isSortedWords_NotEmpty(){
+void test_isSortedWords_NotEmpty() {
     char s1[] = "AAAA AAB  AAC";
     char s2[] = "AAA AA AAAA CA";
     char s3[] = "Asd";
@@ -243,11 +244,29 @@ void test_isSortedWords_NotEmpty(){
 }
 
 
-void test_isSortedWords(){
+void test_isSortedWords() {
     test_isSortedWords_NotEmpty();
     test_isSortedWords_Empty();
 }
 
+void test_getCountOfPalindromes_NotEmpty(){
+    char *s = "ABA ABBA  ABB asdDdsa";
+
+    assert(getCountOfPalindromes(s) == 3);
+    ASSERT_STRING("OK", "OK");
+}
+
+void test_getCountOfPalindromes_Empty(){
+    char *s = "";
+
+    assert(!getCountOfPalindromes(s));
+    ASSERT_STRING("OK", "OK");
+}
+
+void test_getCountOfPalindromes(){
+    test_getCountOfPalindromes_NotEmpty();
+    test_getCountOfPalindromes_Empty();
+}
 
 void test_tasks_String_() {
     test_removeNonLetters();
@@ -257,6 +276,7 @@ void test_tasks_String_() {
     test_getSpaceForDigits();
     test_replace();
     test_isSortedWords();
+    test_getCountOfPalindromes();
 }
 
 #endif
