@@ -1,4 +1,0 @@
-#ifndef COURSE__PRINTWORDREVERS_H
-#define COURSE__PRINTWORDREVERS_H
-
-#endif

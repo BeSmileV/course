@@ -14,7 +14,7 @@ add_library(str libs/string/string_.h libs/string/string_.c
         libs/string/tasks/digitToEnd.h
         libs/string/tasks/getSpaceForDigits.h
         libs/string/tasks/replace.h
-        libs/tests/tests_string_.h libs/string/tasks/isSortedWords.h libs/string/tasks/printWordRevers.h)
+        libs/tests/tests_string_.h libs/string/tasks/isSortedWords.h libs/string/tasks/printWordsRevers.h)
 
 target_link_libraries(course_ str)
 target_link_libraries(course_ data_structures)

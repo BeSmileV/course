@@ -7,6 +7,7 @@
 #include "libs/data_structures/vector/vector.h"
 #include "libs/data_structures/matrix/matrix.h"
 #include "libs/tests/tests_string_.h"
+#include "libs/string/tasks/printWordsRevers.h"
 
 void test_isEmpty_emptyVector() {
     vector v = createVector(2);
@@ -1432,6 +1433,9 @@ int main() {
     test_tasks_Matrix();
     testString_();
     test_tasks_String_();
+
+    char s[] = "diner have I";
+    printWordsRevers(s);
 
     return 0;
 }
