@@ -1,7 +1,7 @@
 #include "string_.h"
 
 size_t strlen_(const char *s) {
-    char *a = s;
+    char *a = (char *)s;
     while (*a != '\0')
         a++;
 

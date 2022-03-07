@@ -10,6 +10,8 @@
 #include "../string/tasks/getSpaceForDigits.h"
 #include "../string/tasks/isSortedWords.h"
 #include "../string/tasks/getCountOfPalindromes.h"
+#include "../string/tasks/getStringOfAlternatingWords.h"
+#include "malloc.h"
 
 void assertString(const char *expected, char *got,
                   char const *fileName, char const *funcName,
@@ -268,6 +270,27 @@ void test_getCountOfPalindromes(){
     test_getCountOfPalindromes_Empty();
 }
 
+void test_getStringOfAlternatingWords_NotEmpty(){
+    char s1[] = "I done   homework";
+    char s2[] = " have my";
+    char *s = getStringOfAlternatingWords(s1, s2);
+
+    ASSERT_STRING("I have done my homework", s);
+}
+
+void test_getStringOfAlternatingWords_Empty(){
+    char s1[] = "";
+    char s2[] = "";
+    char *s = getStringOfAlternatingWords(s1, s2);
+
+    ASSERT_STRING("", s);
+}
+
+void test_getStringOfAlternatingWords(){
+    test_getStringOfAlternatingWords_Empty();
+    test_getStringOfAlternatingWords_NotEmpty();
+}
+
 void test_tasks_String_() {
     test_removeNonLetters();
     test_removeAdjacentEqualLetters();
@@ -277,6 +300,7 @@ void test_tasks_String_() {
     test_replace();
     test_isSortedWords();
     test_getCountOfPalindromes();
+    test_getStringOfAlternatingWords();
 }
 
 #endif
