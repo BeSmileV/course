@@ -2,6 +2,7 @@
 #define COURSE__TESTS_STRING__H
 
 #include "../tests/tests_string_.h"
+#include "../string/string_.h"
 #include "../string/tasks/replace.h"
 #include "../string/tasks/removeNonLetters.h"
 #include "../string/tasks/removeAdjacentEqualLetters.h"
@@ -101,6 +102,45 @@ void test_copyIfReverse() {
     ASSERT_STRING("642", s2);
 }
 
+void test_getWord__NotEmpty(){
+    char s[] = "ASS ss sas";
+    WordDescriptor word;
+
+    assert(getWord(s, &word) && word.begin == s && word.end == s + 3);
+}
+
+void test_getWord__Empty(){
+    char s[] = "";
+    WordDescriptor word;
+
+    assert(!getWord(s, &word));
+}
+
+void test_getWord_(){
+    test_getWord__NotEmpty();
+    test_getWord__Empty();
+}
+
+void test_getWordReverse_NotEmpty(){
+    char s[] = "ASS ss sas";
+    WordDescriptor word;
+
+    assert(getWordReverse(s + 9, s, &word) && word.begin == s + 6 && word.end == s + 9);
+}
+
+void test_getWordReverse_Empty(){
+    char s[] = "";
+    WordDescriptor word;
+
+    assert(!getWordReverse(s, s, &word));
+}
+
+void test_getWordReverse(){
+    test_getWordReverse_Empty();
+    test_getWordReverse_NotEmpty();
+}
+
+
 void testString_() {
     test_strlen_();
     test_findNonSpace();
@@ -111,6 +151,8 @@ void testString_() {
     test_copy();
     test_copyIf();
     test_copyIfReverse();
+    test_getWord_();
+    test_getWordReverse();
 }
 
 // TASKS
