@@ -1398,7 +1398,7 @@ void test_getSpecialScalarProduct() {
                4, 21, 2};
     matrix m1 = createMatrixFromArray(a, 3, 3);
 
-    assert(getSpecialScalarProduct(m1) == 86);
+    assert(getSpecialScalarProduct(m1) == 85);
 
     freeMemMatrix(m1);
 }
@@ -1425,6 +1425,7 @@ void test_tasks_Matrix() {
     test_task15();
     test_task16();
     test_task17();
+    test_task18();
 }
 
 int main() {

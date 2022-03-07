@@ -3,6 +3,21 @@
 
 #include "../string_.h"
 
+int getWordComma(char *beginSearch, WordDescriptor *word) {
+    while (*beginSearch == ',')
+        beginSearch++;
+    word->begin = beginSearch;
+    if (*word->begin == '\0')
+        return 0;
+
+    while (*beginSearch != ',' && *beginSearch != '\0')
+        beginSearch++;
+
+    word->end = beginSearch;
+
+    return 1;
+}
+
 bool isPalindrome(WordDescriptor word){
     char s[MAX_WORD_SIZE];
     char *end = copy(word.begin, word.end, s);
@@ -19,7 +34,7 @@ bool isPalindrome(WordDescriptor word){
 int getCountOfPalindromes(char *s){
     int count = 0;
     WordDescriptor word;
-    while(getWord(s, &word)){
+    while(getWordComma(s, &word)){
         if(isPalindrome(word))
             count++;
 

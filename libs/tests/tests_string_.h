@@ -250,7 +250,7 @@ void test_isSortedWords() {
 }
 
 void test_getCountOfPalindromes_NotEmpty(){
-    char *s = "ABA ABBA  ABB asdDdsa";
+    char *s = "ABA,ABBA,ABB,,asdDdsa";
 
     assert(getCountOfPalindromes(s) == 3);
     ASSERT_STRING("OK", "OK");
