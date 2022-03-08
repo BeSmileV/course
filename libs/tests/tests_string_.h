@@ -12,6 +12,7 @@
 #include "../string/tasks/isSortedWords.h"
 #include "../string/tasks/getCountOfPalindromes.h"
 #include "../string/tasks/getStringOfAlternatingWords.h"
+#include "../string/tasks/getReverseString.h"
 #include "malloc.h"
 
 void assertString(const char *expected, char *got,
@@ -122,10 +123,10 @@ void test_getWord_(){
 }
 
 void test_getWordReverse_NotEmpty(){
-    char s[] = "ASS ss sas";
+    char s[] = "ASS";
     WordDescriptor word;
 
-    assert(getWordReverse(s + 9, s, &word) && word.begin == s + 6 && word.end == s + 9);
+    assert(getWordReverse(s + 2, s - 1, &word) && word.begin == s && word.end == s + 3);
 }
 
 void test_getWordReverse_Empty(){
@@ -333,6 +334,25 @@ void test_getStringOfAlternatingWords(){
     test_getStringOfAlternatingWords_NotEmpty();
 }
 
+void test_getReverseString_NotEmpty(){
+    char s[] = "home   go I";
+    getReverseString(s);
+
+    ASSERT_STRING("I go home", s);
+}
+
+void test_getReverseString_Empty(){
+    char s[] = "";
+    getReverseString(s);
+
+    ASSERT_STRING("", s);
+}
+
+void test_getReverseString(){
+    test_getReverseString_Empty();
+    test_getReverseString_NotEmpty();
+}
+
 void test_tasks_String_() {
     test_removeNonLetters();
     test_removeAdjacentEqualLetters();
@@ -343,6 +363,7 @@ void test_tasks_String_() {
     test_isSortedWords();
     test_getCountOfPalindromes();
     test_getStringOfAlternatingWords();
+    test_getReverseString();
 }
 
 #endif
