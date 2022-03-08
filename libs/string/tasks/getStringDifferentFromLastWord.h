@@ -14,6 +14,11 @@ char *getStringDifferentFromLastWord(char *s) {
     char *str = malloc(sizeof(char) * (MAX_STRING_SIZE + 1));
     char *Write = str;
     getBagOfWords(&_bag, s);
+    if(_bag.size == 0) {
+        free(str);
+
+        return s;
+    }
     size_t n = _bag.size - 1;
     for (size_t i = 0; i < n; i++)
         if (isNotEqualWords(_bag.words[i], _bag.words[n])) {

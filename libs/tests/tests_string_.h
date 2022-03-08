@@ -20,6 +20,7 @@
 #include "../string/tasks/getStringDifferentFromLastWord.h"
 #include "../string/tasks/findWordBeforeW.h"
 #include "../string/tasks/deleteWordLikeLast.h"
+#include "../string/tasks/fillString.h"
 #include <malloc.h>
 
 void assertString(const char *expected, char *got,
@@ -315,7 +316,6 @@ void test_isSortedWords_NotEmpty() {
     ASSERT_STRING("OK", "OK");
 }
 
-
 void test_isSortedWords() {
     test_isSortedWords_NotEmpty();
     test_isSortedWords_Empty();
@@ -459,6 +459,7 @@ void test_getStringDifferentFromLastWord_HaveNotEqualWords() {
 void test_getStringDifferentFromLastWord() {
     test_getStringDifferentFromLastWord_HaveEqualWords();
     test_getStringDifferentFromLastWord_HaveNotEqualWords();
+
 }
 
 void test_findWordBeforeW() {
@@ -489,6 +490,27 @@ void test_deleteWordLikeLast(){
     test_deleteWordLikeLast_Empty();
 }
 
+void test_fillString_NotEmpty(){
+    char s1[MAX_WORD_SIZE] = "Sergey get backup";
+    char s2[MAX_WORD_SIZE] = "Sergey    ";
+    fillString(s1, s2);
+
+    ASSERT_STRING(s1, s2);
+}
+
+void test_fillString_Empty(){
+    char s1[MAX_WORD_SIZE] = "Sergey get backup";
+    char s2[MAX_WORD_SIZE] = "";
+    fillString(s1, s2);
+
+    ASSERT_STRING(s1, s2);
+}
+
+void test_fillString(){
+    test_fillString_NotEmpty();
+    test_fillString_Empty();
+}
+
 void test_tasks_String_() {
     test_removeNonLetters();
     test_removeAdjacentEqualLetters();
@@ -508,6 +530,7 @@ void test_tasks_String_() {
     test_getStringDifferentFromLastWord();
     test_findWordBeforeW();
     test_deleteWordLikeLast();
+    test_fillString();
 }
 
 #endif
