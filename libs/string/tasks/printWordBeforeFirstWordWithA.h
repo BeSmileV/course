@@ -39,13 +39,13 @@ int getWordBeforeFirstWordWithA(char *s, WordDescriptor *wordBeforeA) {
 
 void printWordBeforeFirstWordWithA(char *s) {
     WordDescriptor wordBeforeA;
-    getWordBeforeFirstWordWithA(s, &wordBeforeA);
+    if (getWordBeforeFirstWordWithA(s, &wordBeforeA) == WORD_FOUND) {
+        char buf[MAX_WORD_SIZE];
+        char *endBuf = copy(wordBeforeA.begin, wordBeforeA.end, buf);
+        *endBuf = '\0';
 
-    char buf[MAX_WORD_SIZE];
-    char *endBuf = copy(wordBeforeA.begin, wordBeforeA.end, buf);
-    *endBuf = '\0';
-
-    puts(buf);
+        puts(buf);
+    }
 }
 
 #endif
