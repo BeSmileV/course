@@ -18,6 +18,7 @@
 #include "../string/tasks/haveEqualWords.h"
 #include "../string/tasks/haveAnagrams.h"
 #include "../string/tasks/getStringDifferentFromLastWord.h"
+#include "../string/tasks/findWordBeforeW.h"
 #include <malloc.h>
 
 void assertString(const char *expected, char *got,
@@ -448,6 +449,15 @@ void test_getStringDifferentFromLastWord(){
     test_getStringDifferentFromLastWord_HaveNotEqualWords();
 }
 
+void test_findWordBeforeW(){
+    char s1[] = "srf rs srsd sdsr as aa";
+    WordDescriptor w = {s1 + 7, s1 + 11};
+    WordDescriptor word = findWordBeforeW(s1, w);
+
+    assert(word.begin == s1 + 4 && word.end == s1 + 6);
+    ASSERT_STRING("OK", "OK");
+}
+
 void test_tasks_String_() {
     test_removeNonLetters();
     test_removeAdjacentEqualLetters();
@@ -465,6 +475,7 @@ void test_tasks_String_() {
     test_haveAnagrams();
     test_getStringDifferentFromLastWord();
     test_getStringDifferentFromLastWord();
+    test_findWordBeforeW();
 }
 
 #endif

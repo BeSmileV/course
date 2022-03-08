@@ -9,7 +9,6 @@ void wordDescriptorToString(WordDescriptor word, char *destination){
 }
 
 WordDescriptor findFirstStrLastWordOfSecondStr(char *s1, char *s2){
-    bool isFindWord = false;
     getBagOfWords(&_bag, s1);
     getBagOfWords(&_bag2, s2);
     for(size_t i = _bag.size; i >= 0; i--)
