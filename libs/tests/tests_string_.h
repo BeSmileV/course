@@ -13,6 +13,7 @@
 #include "../string/tasks/getCountOfPalindromes.h"
 #include "../string/tasks/getStringOfAlternatingWords.h"
 #include "../string/tasks/getReverseString.h"
+#include "../string/tasks/printWordBeforeFirstWordWithA.h"
 #include "malloc.h"
 
 void assertString(const char *expected, char *got,
@@ -353,6 +354,41 @@ void test_getReverseString(){
     test_getReverseString_NotEmpty();
 }
 
+void test_getWordBeforeFirstWordWithA_NotFoundWordWithA(){
+    char s[] = "ss ss ss";
+    WordDescriptor word;
+    assert(getWordBeforeFirstWordWithA(s, &word) == NOT_FOUND_A_WORD_WITH_A);
+    ASSERT_STRING("OK", "OK");
+}
+
+void test_getWordBeforeFirstWordWithA_WordFound(){
+    char s[] = "sf ok sa";
+    WordDescriptor word;
+    assert(getWordBeforeFirstWordWithA(s, &word) == WORD_FOUND);
+    ASSERT_STRING("OK", "OK");
+}
+
+void test_getWordBeforeFirstWordWithA_FirstWordWithA(){
+    char s[] = "ass sdsd sds";
+    WordDescriptor word;
+    assert(getWordBeforeFirstWordWithA(s, &word) == FIRST_WORD_WITH_A);
+    ASSERT_STRING("OK", "OK");
+}
+
+void test_getWordBeforeFirstWordWithA_EmptyString(){
+    char s[] = "";
+    WordDescriptor word;
+    assert(getWordBeforeFirstWordWithA(s, &word) == EMPTY_STRING);
+    ASSERT_STRING("OK", "OK");
+}
+
+void test_getWordBeforeFirstWordWithA(){
+    test_getWordBeforeFirstWordWithA_EmptyString();
+    test_getWordBeforeFirstWordWithA_FirstWordWithA();
+    test_getWordBeforeFirstWordWithA_WordFound();
+    test_getWordBeforeFirstWordWithA_NotFoundWordWithA();
+}
+
 void test_tasks_String_() {
     test_removeNonLetters();
     test_removeAdjacentEqualLetters();
@@ -364,6 +400,7 @@ void test_tasks_String_() {
     test_getCountOfPalindromes();
     test_getStringOfAlternatingWords();
     test_getReverseString();
+    test_getWordBeforeFirstWordWithA();
 }
 
 #endif
