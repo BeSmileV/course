@@ -14,6 +14,8 @@
 #include "../string/tasks/getStringOfAlternatingWords.h"
 #include "../string/tasks/getReverseString.h"
 #include "../string/tasks/printWordBeforeFirstWordWithA.h"
+#include "../string/tasks/findFirstStrLastWordOfSecondStr.h"
+#include "../string/tasks/haveEqualWords.h"
 #include "malloc.h"
 
 void assertString(const char *expected, char *got,
@@ -142,6 +144,14 @@ void test_getWordReverse(){
     test_getWordReverse_NotEmpty();
 }
 
+void test_wordDescriptorToString(){
+    char w[] = "Hello";
+    char s[MAX_WORD_SIZE];
+    WordDescriptor word = {w, w + 5};
+    wordDescriptorToString_(word, s);
+
+    ASSERT_STRING(w, s);
+}
 
 void testString_() {
     test_strlen_();
@@ -155,6 +165,7 @@ void testString_() {
     test_copyIfReverse();
     test_getWord_();
     test_getWordReverse();
+    test_wordDescriptorToString();
 }
 
 // TASKS
@@ -389,6 +400,24 @@ void test_getWordBeforeFirstWordWithA(){
     test_getWordBeforeFirstWordWithA_NotFoundWordWithA();
 }
 
+void test_findFirstStrLastWordOfSecondStr(){
+    char s1[] = "first second tenth";
+    char s2[] = "eleventh nine second tenth  third";
+    WordDescriptor word = findFirstStrLastWordOfSecondStr(s2, s1);
+    char res[MAX_WORD_SIZE + 1];
+    wordDescriptorToString_(word, res);
+    ASSERT_STRING("tenth" ,res);
+}
+
+void test_haveEqualWords(){
+    char s1[] = "first second tenth";
+    char s2[] = "first second second";
+    char s3[] = "";
+
+    assert(!haveEqualWords(s1) && haveEqualWords(s2) && !haveEqualWords(s3));
+    ASSERT_STRING("OK" , "OK");
+}
+
 void test_tasks_String_() {
     test_removeNonLetters();
     test_removeAdjacentEqualLetters();
@@ -401,6 +430,8 @@ void test_tasks_String_() {
     test_getStringOfAlternatingWords();
     test_getReverseString();
     test_getWordBeforeFirstWordWithA();
+    test_findFirstStrLastWordOfSecondStr();
+    test_haveEqualWords();
 }
 
 #endif
