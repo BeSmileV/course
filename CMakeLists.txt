@@ -14,7 +14,7 @@ add_library(str libs/string/string_.h libs/string/string_.c
         libs/string/tasks/digitToEnd.h
         libs/string/tasks/getSpaceForDigits.h
         libs/string/tasks/replace.h
-        libs/tests/tests_string_.h libs/string/tasks/isSortedWords.h libs/string/tasks/printWordsRevers.h libs/string/tasks/getCountOfPalindromes.h libs/string/tasks/getStringOfAlternatingWords.h libs/string/tasks/getReverseString.h libs/string/tasks/printWordBeforeFirstWordWithA.h libs/string/tasks/findFirstStrLastWordOfSecondStr.h libs/string/tasks/haveEqualWords.h libs/string/tasks/haveAnagrams.h libs/string/tasks/getStringDifferentFromLastWord.h libs/string/tasks/findWordBeforeW.h)
+        libs/tests/tests_string_.h libs/string/tasks/isSortedWords.h libs/string/tasks/printWordsRevers.h libs/string/tasks/getCountOfPalindromes.h libs/string/tasks/getStringOfAlternatingWords.h libs/string/tasks/getReverseString.h libs/string/tasks/printWordBeforeFirstWordWithA.h libs/string/tasks/findFirstStrLastWordOfSecondStr.h libs/string/tasks/haveEqualWords.h libs/string/tasks/haveAnagrams.h libs/string/tasks/getStringDifferentFromLastWord.h libs/string/tasks/findWordBeforeW.h libs/string/tasks/deleteWordLikeLast.h)
 
 target_link_libraries(course_ str)
 target_link_libraries(course_ data_structures)

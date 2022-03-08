@@ -86,4 +86,6 @@ void getBagOfWords(BagOfWords *bag, char *s);
 
 void wordDescriptorToString_(WordDescriptor word, char *destination);
 
+void getWordsFromBag(BagOfWords *bag, char *s);
+
 #endif

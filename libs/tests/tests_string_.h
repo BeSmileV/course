@@ -19,6 +19,7 @@
 #include "../string/tasks/haveAnagrams.h"
 #include "../string/tasks/getStringDifferentFromLastWord.h"
 #include "../string/tasks/findWordBeforeW.h"
+#include "../string/tasks/deleteWordLikeLast.h"
 #include <malloc.h>
 
 void assertString(const char *expected, char *got,
@@ -109,51 +110,61 @@ void test_copyIfReverse() {
     ASSERT_STRING("642", s2);
 }
 
-void test_getWord__NotEmpty(){
+void test_getWord__NotEmpty() {
     char s[] = "ASS ss sas";
     WordDescriptor word;
 
     assert(getWord(s, &word) && word.begin == s && word.end == s + 3);
 }
 
-void test_getWord__Empty(){
+void test_getWord__Empty() {
     char s[] = "";
     WordDescriptor word;
 
     assert(!getWord(s, &word));
 }
 
-void test_getWord_(){
+void test_getWord_() {
     test_getWord__NotEmpty();
     test_getWord__Empty();
 }
 
-void test_getWordReverse_NotEmpty(){
+void test_getWordReverse_NotEmpty() {
     char s[] = "ASS";
     WordDescriptor word;
 
     assert(getWordReverse(s + 2, s - 1, &word) && word.begin == s && word.end == s + 3);
 }
 
-void test_getWordReverse_Empty(){
+void test_getWordReverse_Empty() {
     char s[] = "";
     WordDescriptor word;
 
     assert(!getWordReverse(s, s, &word));
 }
 
-void test_getWordReverse(){
+void test_getWordReverse() {
     test_getWordReverse_Empty();
     test_getWordReverse_NotEmpty();
 }
 
-void test_wordDescriptorToString(){
+void test_wordDescriptorToString() {
     char w[] = "Hello";
     char s[MAX_WORD_SIZE];
     WordDescriptor word = {w, w + 5};
     wordDescriptorToString_(word, s);
 
     ASSERT_STRING(w, s);
+}
+
+void test_getWordsFromBag() {
+    char s[] = "I come at 1 am";
+    BagOfWords b;
+    getBagOfWords(&b, s);
+    char res[MAX_STRING_SIZE];
+    getWordsFromBag(&b, res);
+
+    ASSERT_STRING(s, res);
 }
 
 void testString_() {
@@ -169,6 +180,7 @@ void testString_() {
     test_getWord_();
     test_getWordReverse();
     test_wordDescriptorToString();
+    test_getWordsFromBag();
 }
 
 // TASKS
@@ -309,26 +321,26 @@ void test_isSortedWords() {
     test_isSortedWords_Empty();
 }
 
-void test_getCountOfPalindromes_NotEmpty(){
+void test_getCountOfPalindromes_NotEmpty() {
     char *s = "ABA,ABBA,ABB,,asdDdsa";
 
     assert(getCountOfPalindromes(s) == 3);
     ASSERT_STRING("OK", "OK");
 }
 
-void test_getCountOfPalindromes_Empty(){
+void test_getCountOfPalindromes_Empty() {
     char *s = "";
 
     assert(!getCountOfPalindromes(s));
     ASSERT_STRING("OK", "OK");
 }
 
-void test_getCountOfPalindromes(){
+void test_getCountOfPalindromes() {
     test_getCountOfPalindromes_NotEmpty();
     test_getCountOfPalindromes_Empty();
 }
 
-void test_getStringOfAlternatingWords_NotEmpty(){
+void test_getStringOfAlternatingWords_NotEmpty() {
     char s1[] = "I done   homework";
     char s2[] = " have my";
     char *s = getStringOfAlternatingWords(s1, s2);
@@ -336,7 +348,7 @@ void test_getStringOfAlternatingWords_NotEmpty(){
     ASSERT_STRING("I have done my homework", s);
 }
 
-void test_getStringOfAlternatingWords_Empty(){
+void test_getStringOfAlternatingWords_Empty() {
     char s1[] = "";
     char s2[] = "";
     char *s = getStringOfAlternatingWords(s1, s2);
@@ -344,118 +356,137 @@ void test_getStringOfAlternatingWords_Empty(){
     ASSERT_STRING("", s);
 }
 
-void test_getStringOfAlternatingWords(){
+void test_getStringOfAlternatingWords() {
     test_getStringOfAlternatingWords_Empty();
     test_getStringOfAlternatingWords_NotEmpty();
 }
 
-void test_getReverseString_NotEmpty(){
+void test_getReverseString_NotEmpty() {
     char s[] = "home   go I";
     getReverseString(s);
 
     ASSERT_STRING("I go home", s);
 }
 
-void test_getReverseString_Empty(){
+void test_getReverseString_Empty() {
     char s[] = "";
     getReverseString(s);
 
     ASSERT_STRING("", s);
 }
 
-void test_getReverseString(){
+void test_getReverseString() {
     test_getReverseString_Empty();
     test_getReverseString_NotEmpty();
 }
 
-void test_getWordBeforeFirstWordWithA_NotFoundWordWithA(){
+void test_getWordBeforeFirstWordWithA_NotFoundWordWithA() {
     char s[] = "ss ss ss";
     WordDescriptor word;
     assert(getWordBeforeFirstWordWithA(s, &word) == NOT_FOUND_A_WORD_WITH_A);
     ASSERT_STRING("OK", "OK");
 }
 
-void test_getWordBeforeFirstWordWithA_WordFound(){
+void test_getWordBeforeFirstWordWithA_WordFound() {
     char s[] = "sf ok sa";
     WordDescriptor word;
     assert(getWordBeforeFirstWordWithA(s, &word) == WORD_FOUND);
     ASSERT_STRING("OK", "OK");
 }
 
-void test_getWordBeforeFirstWordWithA_FirstWordWithA(){
+void test_getWordBeforeFirstWordWithA_FirstWordWithA() {
     char s[] = "ass sdsd sds";
     WordDescriptor word;
     assert(getWordBeforeFirstWordWithA(s, &word) == FIRST_WORD_WITH_A);
     ASSERT_STRING("OK", "OK");
 }
 
-void test_getWordBeforeFirstWordWithA_EmptyString(){
+void test_getWordBeforeFirstWordWithA_EmptyString() {
     char s[] = "";
     WordDescriptor word;
     assert(getWordBeforeFirstWordWithA(s, &word) == EMPTY_STRING);
     ASSERT_STRING("OK", "OK");
 }
 
-void test_getWordBeforeFirstWordWithA(){
+void test_getWordBeforeFirstWordWithA() {
     test_getWordBeforeFirstWordWithA_EmptyString();
     test_getWordBeforeFirstWordWithA_FirstWordWithA();
     test_getWordBeforeFirstWordWithA_WordFound();
     test_getWordBeforeFirstWordWithA_NotFoundWordWithA();
 }
 
-void test_findFirstStrLastWordOfSecondStr(){
+void test_findFirstStrLastWordOfSecondStr() {
     char s1[] = "first second tenth";
     char s2[] = "eleventh nine second tenth  third";
     WordDescriptor word = findFirstStrLastWordOfSecondStr(s2, s1);
     char res[MAX_WORD_SIZE + 1];
     wordDescriptorToString_(word, res);
-    ASSERT_STRING("tenth" ,res);
+    ASSERT_STRING("tenth", res);
 }
 
-void test_haveEqualWords(){
+void test_haveEqualWords() {
     char s1[] = "first second tenth";
     char s2[] = "first second second";
     char s3[] = "";
 
     assert(!haveEqualWords(s1) && haveEqualWords(s2) && !haveEqualWords(s3));
-    ASSERT_STRING("OK" , "OK");
+    ASSERT_STRING("OK", "OK");
 }
 
-void test_haveAnagrams(){
+void test_haveAnagrams() {
     char s1[] = "sas sds dsd";
     char s2[] = "asd dsa  sss ";
     char s3[] = "";
 
     assert(!haveAnagrams(s1) && haveAnagrams(s2) && !haveAnagrams(s3));
-    ASSERT_STRING("OK" , "OK");
+    ASSERT_STRING("OK", "OK");
 }
 
-void test_getStringDifferentFromLastWord_HaveEqualWords(){
+void test_getStringDifferentFromLastWord_HaveEqualWords() {
     char s1[] = "sr rs sr sr as sr";
     char *res = getStringDifferentFromLastWord(s1);
 
     ASSERT_STRING("rs as", res);
 }
 
-void test_getStringDifferentFromLastWord_HaveNotEqualWords(){
+void test_getStringDifferentFromLastWord_HaveNotEqualWords() {
     char s1[] = "sr rs sr sr as aa";
     char *res = getStringDifferentFromLastWord(s1);
 
     ASSERT_STRING("sr rs sr sr as", res);
 }
 
-void test_getStringDifferentFromLastWord(){
+void test_getStringDifferentFromLastWord() {
     test_getStringDifferentFromLastWord_HaveEqualWords();
     test_getStringDifferentFromLastWord_HaveNotEqualWords();
 }
 
-void test_findWordBeforeW(){
+void test_findWordBeforeW() {
     char s1[] = "srf rs srsd sdsr as aa";
     WordDescriptor w = {s1 + 7, s1 + 11};
     WordDescriptor word = findWordBeforeW(s1, w);
 
     assert(word.begin == s1 + 4 && word.end == s1 + 6);
     ASSERT_STRING("OK", "OK");
+}
+
+void test_deleteWordLikeLast_Empty(){
+    char s[] = "";
+    deleteWordLikeLast(s);
+
+    ASSERT_STRING("", s);
+}
+
+void test_deleteWordLikeLast_NotEmpty(){
+    char s[] = "ars so ee ee ss ee";
+    deleteWordLikeLast(s);
+
+    ASSERT_STRING("ars so ss", s);
+}
+
+void test_deleteWordLikeLast(){
+    test_deleteWordLikeLast_NotEmpty();
+    test_deleteWordLikeLast_Empty();
 }
 
 void test_tasks_String_() {
@@ -476,6 +507,7 @@ void test_tasks_String_() {
     test_getStringDifferentFromLastWord();
     test_getStringDifferentFromLastWord();
     test_findWordBeforeW();
+    test_deleteWordLikeLast();
 }
 
 #endif
