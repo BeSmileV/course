@@ -16,7 +16,8 @@
 #include "../string/tasks/printWordBeforeFirstWordWithA.h"
 #include "../string/tasks/findFirstStrLastWordOfSecondStr.h"
 #include "../string/tasks/haveEqualWords.h"
-#include "malloc.h"
+#include "../string/tasks/haveAnagrams.h"
+#include <malloc.h>
 
 void assertString(const char *expected, char *got,
                   char const *fileName, char const *funcName,
@@ -418,6 +419,15 @@ void test_haveEqualWords(){
     ASSERT_STRING("OK" , "OK");
 }
 
+void test_haveAnagrams(){
+    char s1[] = "sas sds dsd";
+    char s2[] = "asd dsa  sss ";
+    char s3[] = "";
+
+    assert(!haveAnagrams(s1) && haveAnagrams(s2) && !haveAnagrams(s3));
+    ASSERT_STRING("OK" , "OK");
+}
+
 void test_tasks_String_() {
     test_removeNonLetters();
     test_removeAdjacentEqualLetters();
@@ -432,6 +442,7 @@ void test_tasks_String_() {
     test_getWordBeforeFirstWordWithA();
     test_findFirstStrLastWordOfSecondStr();
     test_haveEqualWords();
+    test_haveAnagrams();
 }
 
 #endif
