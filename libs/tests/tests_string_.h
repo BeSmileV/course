@@ -17,6 +17,7 @@
 #include "../string/tasks/findFirstStrLastWordOfSecondStr.h"
 #include "../string/tasks/haveEqualWords.h"
 #include "../string/tasks/haveAnagrams.h"
+#include "../string/tasks/getStringDifferentFromLastWord.h"
 #include <malloc.h>
 
 void assertString(const char *expected, char *got,
@@ -428,6 +429,25 @@ void test_haveAnagrams(){
     ASSERT_STRING("OK" , "OK");
 }
 
+void test_getStringDifferentFromLastWord_HaveEqualWords(){
+    char s1[] = "sr rs sr sr as sr";
+    char *res = getStringDifferentFromLastWord(s1);
+
+    ASSERT_STRING("rs as", res);
+}
+
+void test_getStringDifferentFromLastWord_HaveNotEqualWords(){
+    char s1[] = "sr rs sr sr as aa";
+    char *res = getStringDifferentFromLastWord(s1);
+
+    ASSERT_STRING("sr rs sr sr as", res);
+}
+
+void test_getStringDifferentFromLastWord(){
+    test_getStringDifferentFromLastWord_HaveEqualWords();
+    test_getStringDifferentFromLastWord_HaveNotEqualWords();
+}
+
 void test_tasks_String_() {
     test_removeNonLetters();
     test_removeAdjacentEqualLetters();
@@ -443,6 +463,8 @@ void test_tasks_String_() {
     test_findFirstStrLastWordOfSecondStr();
     test_haveEqualWords();
     test_haveAnagrams();
+    test_getStringDifferentFromLastWord();
+    test_getStringDifferentFromLastWord();
 }
 
 #endif
