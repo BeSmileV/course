@@ -3,22 +3,17 @@
 
 #include "../string_.h"
 
-WordDescriptor findWordBeforeW(char *s, WordDescriptor w) {
-    wordDescriptorToString(w, _stringBuffer + MAX_WORD_SIZE + 1);
-    getBagOfWords(&_bag, s);
-    char *rbegin;
-    for (size_t i = 0; i < w.begin - s; i++) {
-        wordDescriptorToString_(_bag.words[i], _stringBuffer);
-        if (!strcmp_(_stringBuffer, _stringBuffer + MAX_WORD_SIZE + 1)){
-            rbegin = _bag.words[i].begin;
-            break;
+WordDescriptor findWordBeforeW(char *s1, char *s2) {
+    getBagOfWords(&_bag, s1);
+    getBagOfWords(&_bag2, s2);
+    for(size_t i = 0; i < _bag.size; i++)
+        for(size_t j = 0; j < _bag2.size; j++){
+            wordDescriptorToString(_bag.words[i], _stringBuffer);
+            wordDescriptorToString(_bag2.words[j], _stringBuffer + MAX_WORD_SIZE + 1);
+            if(!strcmp_(_stringBuffer, _stringBuffer + MAX_WORD_SIZE + 1)){
+                return _bag.words[i - 1];
+            }
         }
-    }
-    WordDescriptor res;
-
-    getWordReverse(rbegin - 1, s - 1, &res);
-
-    return res;
 }
 
 #endif

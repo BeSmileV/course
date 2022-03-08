@@ -21,6 +21,7 @@
 #include "../string/tasks/findWordBeforeW.h"
 #include "../string/tasks/deleteWordLikeLast.h"
 #include "../string/tasks/fillString.h"
+#include "../string/tasks/isIncludeAllLettersInStr.h"
 #include <malloc.h>
 
 void assertString(const char *expected, char *got,
@@ -464,11 +465,10 @@ void test_getStringDifferentFromLastWord() {
 
 void test_findWordBeforeW() {
     char s1[] = "srf rs srsd sdsr as aa";
-    WordDescriptor w = {s1 + 7, s1 + 11};
-    WordDescriptor word = findWordBeforeW(s1, w);
-
-    assert(word.begin == s1 + 4 && word.end == s1 + 6);
-    ASSERT_STRING("OK", "OK");
+    char s2[] = "dsadas rss dsd sdsr";
+    char res[MAX_WORD_SIZE];
+    wordDescriptorToString_(findWordBeforeW(s1, s2), res);
+    ASSERT_STRING("srsd", res);
 }
 
 void test_deleteWordLikeLast_Empty(){
@@ -511,6 +511,17 @@ void test_fillString(){
     test_fillString_Empty();
 }
 
+void test_isIncludeAllLettersInStr() {
+    char s1[] = "ASSss sasd asas sddpp";
+
+    assert(isIncludeAllLettersInStr(s1, "As") && !isIncludeAllLettersInStr(s1, "lp"));
+
+    char s2[] = "AA aa BB CC bb";
+
+    assert(isIncludeAllLettersInStr(s2, "ABC") && !isIncludeAllLettersInStr(s2, "AAaBbCc"));
+    ASSERT_STRING("OK", "OK");
+}
+
 void test_tasks_String_() {
     test_removeNonLetters();
     test_removeAdjacentEqualLetters();
@@ -531,6 +542,7 @@ void test_tasks_String_() {
     test_findWordBeforeW();
     test_deleteWordLikeLast();
     test_fillString();
+    test_isIncludeAllLettersInStr();
 }
 
 #endif
